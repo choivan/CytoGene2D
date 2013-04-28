@@ -67,22 +67,22 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CGAction.vb" />
-    <Compile Include="CGActionInstant.vb" />
-    <Compile Include="CGActionInterval.vb" />
-    <Compile Include="CGActionManager.vb" />
-    <Compile Include="CGConstant.vb" />
-    <Compile Include="CGDirector.vb" />
-    <Compile Include="CGDNADoubleStrand.vb" />
-    <Compile Include="CGDNANode.vb" />
-    <Compile Include="CGDNASingleStrand.vb" />
-    <Compile Include="CGIndicator.vb" />
-    <Compile Include="CGInteraction.vb" />
-    <Compile Include="CGInteractionManager.vb" />
-    <Compile Include="CGNode.vb" />
-    <Compile Include="CGScene.vb" />
-    <Compile Include="CGScheduler.vb" />
-    <Compile Include="CGSprite.vb" />
+    <Compile Include="CytoGene2D\CGAction.vb" />
+    <Compile Include="CytoGene2D\CGActionInstant.vb" />
+    <Compile Include="CytoGene2D\CGActionInterval.vb" />
+    <Compile Include="CytoGene2D\CGActionManager.vb" />
+    <Compile Include="CytoGene2D\CGConstant.vb" />
+    <Compile Include="CytoGene2D\CGDirector.vb" />
+    <Compile Include="CytoGene2D\CGDNADoubleStrand.vb" />
+    <Compile Include="CytoGene2D\CGDNANode.vb" />
+    <Compile Include="CytoGene2D\CGDNASingleStrand.vb" />
+    <Compile Include="CytoGene2D\CGIndicator.vb" />
+    <Compile Include="CytoGene2D\CGInteraction.vb" />
+    <Compile Include="CytoGene2D\CGInteractionManager.vb" />
+    <Compile Include="CytoGene2D\CGNode.vb" />
+    <Compile Include="CytoGene2D\CGScene.vb" />
+    <Compile Include="CytoGene2D\CGScheduler.vb" />
+    <Compile Include="CytoGene2D\CGSprite.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
