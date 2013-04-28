@@ -16,3 +16,12 @@ Z:\Documents\Complete List of GLP\Project files - source\GeneRegulationDemo\Gene
 \\psf\Home\Documents\Visual Studio 2012\Projects\GeneRegulationDemo\CytoGene2DDemo\bin\Debug\CytoGene2DDemo.exe
 \\psf\Home\Documents\Visual Studio 2012\Projects\GeneRegulationDemo\CytoGene2DDemo\bin\Debug\CytoGene2DDemo.pdb
 \\psf\Home\Documents\Visual Studio 2012\Projects\GeneRegulationDemo\CytoGene2DDemo\bin\Debug\CytoGene2DDemo.xml
+\\psf\Home\Documents\Visual Studio 2012\Projects\CytoGene2DDemo\CytoGene2DDemo\obj\x86\Debug\CytoGene2DDemo.exe
+\\psf\Home\Documents\Visual Studio 2012\Projects\CytoGene2DDemo\CytoGene2DDemo\obj\x86\Debug\CytoGene2DDemo.xml
+\\psf\Home\Documents\Visual Studio 2012\Projects\CytoGene2DDemo\CytoGene2DDemo\obj\x86\Debug\CytoGene2DDemo.pdb
+\\psf\Home\Documents\Visual Studio 2012\Projects\CytoGene2DDemo\CytoGene2DDemo\bin\Debug\CytoGene2DDemo.exe
+\\psf\Home\Documents\Visual Studio 2012\Projects\CytoGene2DDemo\CytoGene2DDemo\bin\Debug\CytoGene2DDemo.pdb
+\\psf\Home\Documents\Visual Studio 2012\Projects\CytoGene2DDemo\CytoGene2DDemo\bin\Debug\CytoGene2DDemo.xml
+\\psf\Home\Documents\Visual Studio 2012\Projects\CytoGene2DDemo\CytoGene2DDemo\obj\x86\Debug\GeneRegulationDemo.Form1.resources
+\\psf\Home\Documents\Visual Studio 2012\Projects\CytoGene2DDemo\CytoGene2DDemo\obj\x86\Debug\GeneRegulationDemo.Resources.resources
+\\psf\Home\Documents\Visual Studio 2012\Projects\CytoGene2DDemo\CytoGene2DDemo\obj\x86\Debug\CytoGene2DDemo.vbproj.GenerateResource.Cache
