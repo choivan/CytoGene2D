@@ -60,6 +60,7 @@ Public Class CGInteractionManager
 
         If interactionsHash_.ContainsKey(target) Then
             Dim ti As TargetedInteraction = interactionsHash_.Item(target)
+            ti.interaction.stopInteraction()
             If ti.lastItem IsNot Nothing Then
                 ti.lastItem.nextItem = ti.nextItem
             Else 'ti is head. remove head

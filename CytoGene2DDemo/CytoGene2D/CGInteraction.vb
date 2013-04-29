@@ -1,11 +1,11 @@
 ﻿Public Class CGInteraction
 
-    Private status_ As Integer
-    Public Property status As Integer
+    Private status_ As InteractionStatus
+    Public Property status As InteractionStatus
         Get
             Return status_
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As InteractionStatus)
             status_ = value
         End Set
     End Property
@@ -156,5 +156,36 @@ Public Class CGInteractionMoveBy : Inherits CGInteractionMoveTo
     Public Overrides Sub startWithTarget(ByVal target As Object)
         destination = New PointF(target.center.X + delta_.X, target.center.Y + delta_.Y)
         MyBase.startWithTarget(target)
+    End Sub
+End Class
+
+' NOTE: this interaction only works for CGButton object, otherwise, error throws.
+Public Class CGInteractionButton : Inherits CGInteraction
+    Public Overrides Sub startWithTarget(ByVal target As Object)
+        Debug.Assert(target.GetType() Is GetType(CGButton) OrElse
+                     target.GetType().IsSubclassOf(GetType(CGButton)),
+                     Me.ToString + ": Invalid type")
+        MyBase.startWithTarget(target)
+    End Sub
+
+    Public Overrides Sub update(sender As Object, e As MouseEventArgs, m As MouseEvent)
+        If Not target.isTouchForMe(e.Location) Then
+            status = InteractionStatus.MouseIdle
+            target.setNormal()
+            Return
+        End If
+        MyBase.update(sender, e, m)
+        If status = InteractionStatus.MouseIdle Then
+            If m = MouseEvent.MouseMove Then
+                'target.setHighlighted()
+            ElseIf m = MouseEvent.MouseUp Then
+                target.setNormal()
+            End If
+        ElseIf status = InteractionStatus.MouseDown OrElse status = InteractionStatus.MouseMove Then
+            target.setSelected()
+            If m = MouseEvent.MouseClick Then
+                target.click(e)
+            End If
+        End If
     End Sub
 End Class

@@ -1,8 +1,9 @@
 ﻿Public Class Form1
+    Private WithEvents button_ As CGButton
 
     Private Sub Form1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        testDirectorAndActions()
-        'testDNAStrand()
+        'testDirectorAndActions()
+        testDNAStrand()
     End Sub
 
     Private Sub testDNAStrand()
@@ -63,6 +64,9 @@
             forever = New CGInfiniteTimeAction(seq)
             doubleStrand.strand2.getDNANodeAtIndex(i).runAction(forever)
         Next
+
+        button_ = New CGButton(New RectangleF(350, 500, 100, 40))
+        scene.addChild(button_, kCGTopMostZOrder)
     End Sub
 
     Private Sub testDirectorAndActions()
@@ -269,5 +273,9 @@
         Console.WriteLine("After remove child by tag, the number of children is " + father.children.Count.ToString)
         father.removeAllChildren(True)
         Console.WriteLine("After remove all children, the number of children is " + father.children.Count.ToString)
+    End Sub
+
+    Private Sub button__onClick(sender As CGButton, e As MouseEventArgs) Handles button_.onClick
+        Console.WriteLine(sender.ToString + " is clicked; click location at " + e.Location.ToString)
     End Sub
 End Class
