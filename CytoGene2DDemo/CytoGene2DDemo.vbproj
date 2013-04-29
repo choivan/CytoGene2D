@@ -71,6 +71,7 @@
     <Compile Include="CytoGene2D\CGActionInstant.vb" />
     <Compile Include="CytoGene2D\CGActionInterval.vb" />
     <Compile Include="CytoGene2D\CGActionManager.vb" />
+    <Compile Include="CytoGene2D\CGButton.vb" />
     <Compile Include="CytoGene2D\CGConstant.vb" />
     <Compile Include="CytoGene2D\CGDirector.vb" />
     <Compile Include="CytoGene2D\CGDNADoubleStrand.vb" />

@@ -18,7 +18,6 @@
             target_ = value
         End Set
     End Property
-    Public lastMouseLocation As Point
 
     Public Overridable Function didTriggerHotSpot() As Boolean
         ' overrides me
@@ -32,11 +31,13 @@
 
     Public Overridable Sub stopInteraction()
         ' overrides me
+        target_.userInteractionEnabled = False
         target_ = Nothing
     End Sub
 
     Public Overridable Sub update(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs, ByVal m As MouseEvent)
         ' overrides me
+        If Not target_.isTouchForMe(e.Location) Then Return
         If status_ = InteractionStatus.MouseIdle Then
             If m = MouseEvent.MouseDown Then
                 status_ = InteractionStatus.MouseDown
@@ -51,10 +52,6 @@
             If m = MouseEvent.MouseUp Then
                 status_ = InteractionStatus.MouseIdle
             End If
-        End If
-
-        If m = MouseEvent.MouseDown Then
-            lastMouseLocation = e.Location
         End If
     End Sub
 
@@ -78,7 +75,7 @@ Public Class CGInteractionMoveTo : Inherits CGInteraction
     End Property
     Private destRect_ As RectangleF
     Private original_ As PointF
-
+    Private lastMouseLocation_ As Point
     Private isDone_ As Boolean
 
     Public hasIndicator As Boolean
@@ -88,7 +85,7 @@ Public Class CGInteractionMoveTo : Inherits CGInteraction
     Sub New(ByVal destination As PointF, ByVal hasIndicator As Boolean)
         destination_ = destination
         isDone_ = False
-        me.hasIndicator = hasIndicator
+        Me.hasIndicator = hasIndicator
     End Sub
 
     Public Overrides Sub startWithTarget(ByVal target As Object)
@@ -107,28 +104,31 @@ Public Class CGInteractionMoveTo : Inherits CGInteraction
     End Function
 
     Public Overrides Sub update(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs, ByVal m As MouseEvent)
+        If Not target.isTouchForMe(e.Location) Then Return
         MyBase.update(sender, e, m)
         If status = InteractionStatus.MouseIdle AndAlso m = MouseEvent.MouseUp Then
-            If hasIndicator Then
+            If hasIndicator AndAlso isIndicatorAdded_ Then
                 indicator_.stopAllActions()
                 indicator_.removeFromParentAndCleanup(True)
                 indicator_ = Nothing
                 isIndicatorAdded_ = False
             End If
             If didTriggerHotSpot() Then
-                'target.center = destination_
                 Dim moveTo As New CGMoveTo(3, destination_)
                 target.runAction(moveTo)
                 isDone_ = True
             Else
                 ' cool!! animation!!!
+                target.userInteractionEnabled = False
                 Dim moveTo As New CGMoveTo(5, original_)
-                target.runAction(moveTo)
-                'target.center = original_
+                Dim callBack As New CGActionInstant(Sub()
+                                                        target.userInteractionEnabled = True
+                                                    End Sub)
+                target.runAction(New CGSequence(moveTo, callBack))
             End If
         ElseIf status = InteractionStatus.MouseMove AndAlso m = MouseEvent.MouseMove Then
-            target.center = New PointF(target.center.X + e.X - lastMouseLocation.X, target.center.Y + e.Y - lastMouseLocation.Y)
-            lastMouseLocation = e.Location
+            target.center = New PointF(target.center.X + e.X - lastMouseLocation_.X, target.center.Y + e.Y - lastMouseLocation_.Y)
+            lastMouseLocation_ = e.Location
         ElseIf status = InteractionStatus.MouseDown AndAlso m = MouseEvent.MouseDown AndAlso Not isIndicatorAdded_ Then
             If hasIndicator Then
                 indicator_ = New CGIndicator(destRect_, Color.Red)
@@ -137,6 +137,9 @@ Public Class CGInteractionMoveTo : Inherits CGInteraction
                 indicator_.runAction(foreverBlink)
                 isIndicatorAdded_ = True
             End If
+        End If
+        If m = MouseEvent.MouseDown Then
+            lastMouseLocation_ = e.Location
         End If
     End Sub
 

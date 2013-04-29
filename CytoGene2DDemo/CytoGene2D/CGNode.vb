@@ -275,7 +275,6 @@
 
     Public Sub runAction(ByVal action As CGAction)
         Debug.Assert(action IsNot Nothing, "action cannot be nothing")
-        Me.userInteractionEnabled = False
         actionManager_.addAction(action, Me, False)
     End Sub
 

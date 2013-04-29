@@ -1,8 +1,8 @@
 ﻿Public Class Form1
 
     Private Sub Form1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        'testDirectorAndActions()
-        testDNAStrand()
+        testDirectorAndActions()
+        'testDNAStrand()
     End Sub
 
     Private Sub testDNAStrand()

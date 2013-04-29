@@ -26,4 +26,11 @@
         MouseUp
         MouseClick
     End Enum
+
+    Enum ButtonStatus
+        ButtonNormal = 0
+        ButtonSelected
+        ButtonHighlighted
+        ButtonDisabled
+    End Enum
 End Module
