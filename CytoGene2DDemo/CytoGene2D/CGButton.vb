@@ -1,6 +1,11 @@
 ﻿Public Class CGButton : Inherits CGNode
     ' button properties
     Private status_ As CGConstant.ButtonStatus
+    Public ReadOnly Property status As CGConstant.ButtonStatus
+        Get
+            Return status_
+        End Get
+    End Property
     Private normalColor_ As Color
     Private selectedColor_ As Color
     Private highlightedColor_ As Color
@@ -19,8 +24,23 @@
 
     Private interaction_ As CGInteractionButton
 
-    ' button events
+    ' button events (add more if needed)
+    ' 1. event-based implementation
     Event onClick(ByVal sender As CGButton, ByVal e As MouseEventArgs)
+
+    ' 2. Delegate-based implementation (NOTE: This implementation has higher priority, which means if a delegate is set, than the event is never raised)
+    Delegate Sub handleMouseEvent(ByVal sender As CGButton, ByVal e As MouseEventArgs)
+    Public handleClick As handleMouseEvent = Nothing ' init to nothing
+
+#Region "Mouse Events Handlers"
+    Public Sub click(ByVal e As MouseEventArgs)
+        If handleClick Is Nothing Then
+            RaiseEvent onClick(Me, e)
+        Else
+            handleClick.Invoke(Me, e)
+        End If
+    End Sub
+#End Region
 
     Sub New(ByVal frame As RectangleF)
         title_ = "Button"
@@ -69,10 +89,6 @@
 
     Protected Sub setDisabledColor(ByVal color As Color)
         disabledColor_ = color
-    End Sub
-
-    Public Sub click(ByVal e As MouseEventArgs)
-        RaiseEvent onClick(Me, e)
     End Sub
 
     Public Overrides Sub draw()

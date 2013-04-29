@@ -1,23 +1,33 @@
 ﻿Public Class Form1
-    Private WithEvents button_ As CGButton
+    Private scene_ As CGScene
 
     Private Sub Form1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        'testDirectorAndActions()
-        testDNAStrand()
-    End Sub
-
-    Private Sub testDNAStrand()
         Console.WriteLine("start testing")
         Dim director As CGDirector = CGDirector.sharedDirector
         director.canvas = PictureBox1
         director.mainWindow = Me
         director.animationInterval = 0.02
 
-        Dim scene As New CGScene
-        director.runScene(scene)
+        scene_ = New CGScene
+        director.runScene(scene_)
+        'testDirectorAndActions()
+        'testDNAStrand()
+        testButtons()
+    End Sub
 
+    Private Sub testButtons()
+        Dim button As New CGButton(New RectangleF(350, 500, 100, 40))
+        button.title = "OK"
+        scene_.addChild(button, kCGTopMostZOrder)
+        button.setDisabled()
+        button.handleClick = Sub(sender As CGButton, e As MouseEventArgs)
+                                 Console.WriteLine(sender.ToString + " is clicked; click location at " + e.Location.ToString)
+                             End Sub
+    End Sub
+
+    Private Sub testDNAStrand()
         Dim singleStrand As New CGDNASingleStrand(New PointF(10, 10), 5, Color.Red, 10, 8)
-        scene.addChild(singleStrand)
+        scene_.addChild(singleStrand)
         singleStrand.dyeDNAStrand(Color.Transparent, 2, 2)
         singleStrand.dyeDNAStrand(Color.Orange, 5, 5)
         Dim callback As CGActionInstant = CGActionInstant.actionWithDelegate(Sub()
@@ -32,7 +42,7 @@
         'singleStrand.moveEntireStrandByDistance(80, New PointF(50, 200))
 
         Dim circleStrand As New CGDNASingleStrandCircular(New PointF(700, 400), 50, 5, Color.Orange, 15, 8)
-        scene.addChild(circleStrand)
+        scene_.addChild(circleStrand)
         callback = CGActionInstant.actionWithDelegate(Sub()
                                                           circleStrand.moveHeadToDestination(120, New PointF(20, 10))
                                                       End Sub)
@@ -41,7 +51,7 @@
         circleStrand.runAction(seq)
 
         Dim doubleStrand As New CGDNADoubleStrand(New PointF(400, 40), New PointF(400, 60), Color.Red, Color.Orange, 5, 20, 8)
-        scene.addChild(doubleStrand)
+        scene_.addChild(doubleStrand)
         For i As Integer = 0 To doubleStrand.strand1.count - 1
             Dim d1 As New CGDelayTime(i * 10)
             Dim index As Integer = i
@@ -64,28 +74,17 @@
             forever = New CGInfiniteTimeAction(seq)
             doubleStrand.strand2.getDNANodeAtIndex(i).runAction(forever)
         Next
-
-        button_ = New CGButton(New RectangleF(350, 500, 100, 40))
-        scene.addChild(button_, kCGTopMostZOrder)
     End Sub
 
     Private Sub testDirectorAndActions()
-        Dim director As CGDirector = CGDirector.sharedDirector
-        director.canvas = PictureBox1
-        director.mainWindow = Me
-        director.animationInterval = 0.02
-
-        Dim scene As New CGScene
-        director.runScene(scene)
-
         Dim node As New CGDNANode(10, Color.Blue, New PointF(10, 10))
-        scene.addChild(node)
+        scene_.addChild(node)
         Dim node2 As New CGDNANode(10, Color.Orange, New PointF(-10, 10))
-        scene.addChild(node2)
+        scene_.addChild(node2)
         Dim node3 As New CGDNANode(10, Color.Gold, New PointF(-30, 10))
-        scene.addChild(node3)
+        scene_.addChild(node3)
         Dim node4 As New CGDNANode(10, Color.Red, New PointF(-50, 10))
-        scene.addChild(node4)
+        scene_.addChild(node4)
         Dim mseq As CGSequence = CGSequence.actionWithArray({
                                                             New CGMoveBy(70, New PointF(350, 0)),
                                                             New CGMoveBy(45, New PointF(0, 200)),
@@ -99,7 +98,7 @@
         node4.runAction(New CGFollow(node3, 20))
 
         Dim smile As New CGSprite(My.Resources.smile, New PointF(80, 80))
-        scene.addChild(smile)
+        scene_.addChild(smile)
         Dim action As New CGMoveBy(80, New PointF(280, 130))
         Dim action2 As New CGFadeOut(80)
         Dim spawn As New CGSpawn(action, action2)
@@ -111,13 +110,13 @@
         smile.runAction(repeat)
 
         Dim blinkSmile As New CGSprite(My.Resources.smile, New PointF(500, 130))
-        scene.addChild(blinkSmile)
+        scene_.addChild(blinkSmile)
         Dim blink As New CGBlink(15, 1)
         Dim forever As New CGInfiniteTimeAction(blink)
         blinkSmile.runAction(forever)
 
         Dim fadeIOSmile As New CGSprite(My.Resources.smile, New PointF(650, 130))
-        scene.addChild(fadeIOSmile)
+        scene_.addChild(fadeIOSmile)
         Dim fade As New CGFadeOut(20)
         Dim arr As New List(Of CGFiniteTimeAction)
         arr.Add(fade) : arr.Add(New CGDelayTime(10)) : arr.Add(fade.reverse)
@@ -126,20 +125,20 @@
         fadeIOSmile.runAction(forever1)
 
         Dim interactiveSmile As New CGSprite(My.Resources.smile, New PointF(500, 230))
-        scene.addChild(interactiveSmile)
+        scene_.addChild(interactiveSmile)
         'Dim moveIA As New CGInteractionMoveTo(New Point(650, 230), True)
         Dim moveIA As New CGInteractionMoveBy(New Point(150, 0), True)
         interactiveSmile.addInteraction(moveIA)
 
         Dim scaleSmile As New CGSprite(My.Resources.smile, New PointF(500, 40))
-        scene.addChild(scaleSmile)
+        scene_.addChild(scaleSmile)
         Dim scale As New CGScaleBy(15, -0.8)
         Dim scaleSeq As New CGSequence(scale, scale.reverse)
         Dim foreverScale As New CGInfiniteTimeAction(scaleSeq)
         scaleSmile.runAction(foreverScale)
 
         Dim rotateSmile As New CGSprite(My.Resources.smile, New PointF(650, 40))
-        scene.addChild(rotateSmile)
+        scene_.addChild(rotateSmile)
         Dim rotate As New CGRotateBy(40, 360)
         Dim foreverRotate As New CGInfiniteTimeAction(rotate)
         rotateSmile.runAction(foreverRotate)
@@ -273,9 +272,5 @@
         Console.WriteLine("After remove child by tag, the number of children is " + father.children.Count.ToString)
         father.removeAllChildren(True)
         Console.WriteLine("After remove all children, the number of children is " + father.children.Count.ToString)
-    End Sub
-
-    Private Sub button__onClick(sender As CGButton, e As MouseEventArgs) Handles button_.onClick
-        Console.WriteLine(sender.ToString + " is clicked; click location at " + e.Location.ToString)
     End Sub
 End Class

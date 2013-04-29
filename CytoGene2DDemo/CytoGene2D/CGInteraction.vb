@@ -169,6 +169,8 @@ Public Class CGInteractionButton : Inherits CGInteraction
     End Sub
 
     Public Overrides Sub update(sender As Object, e As MouseEventArgs, m As MouseEvent)
+        If target.status = CGConstant.ButtonStatus.ButtonDisabled Then Return
+
         If Not target.isTouchForMe(e.Location) Then
             status = InteractionStatus.MouseIdle
             target.setNormal()
