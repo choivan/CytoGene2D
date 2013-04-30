@@ -138,6 +138,7 @@
 
     Public Sub cleanup()
         stopAllActions()
+        removeInteraction()
         unscheduleUpdate()
 
         If children IsNot Nothing Then

@@ -10,9 +10,9 @@
 
         scene_ = New CGScene
         director.runScene(scene_)
-        testDirectorAndActions()
+        'testDirectorAndActions()
         'testDNAStrand()
-        'testButtons()
+        testButtons()
         testSimpleGUI()
     End Sub
 
@@ -28,7 +28,7 @@
     End Sub
 
     Private Sub testButtons()
-        Dim button As New CGButton(New RectangleF(350, 500, 100, 40))
+        Dim button As New CGButton(New RectangleF(350, 400, 100, 40))
         button.title = "OK"
         scene_.addChild(button, kCGTopMostZOrder)
         'button.setDisabled()
