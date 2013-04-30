@@ -7,6 +7,8 @@
     Public Const kCGStandardDNANodesGap As Single = 8
     Public Const kCGStandardDNANodesRadius As Single = 5
 
+    Public Const kCGDefaultAnimationInterval As Single = 0.02
+
     Enum InteractionStatus
         MouseIdle = 0
         MouseDown

@@ -307,11 +307,11 @@
 
 #Region "Scheduler"
     Public Sub unscheduleUpdate()
-        ' TODO
+        scheduler_.unscheduleUpdate(Me)
     End Sub
 
     Public Sub scheduleUpdate()
-        ' TODO
+        scheduler_.scheduleUpdate(Me, 0, False)
     End Sub
 #End Region
 
