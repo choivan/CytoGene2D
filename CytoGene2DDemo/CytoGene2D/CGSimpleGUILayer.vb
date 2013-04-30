@@ -12,7 +12,7 @@
 
     Public ReadOnly Property leftButton As CGButtonSprite
         Get
-            Return rightButton_
+            Return leftButton_
         End Get
     End Property
 

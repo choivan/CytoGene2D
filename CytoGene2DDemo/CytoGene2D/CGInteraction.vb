@@ -104,7 +104,8 @@ Public Class CGInteractionMoveTo : Inherits CGInteraction
     End Function
 
     Public Overrides Sub update(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs, ByVal m As MouseEvent)
-        If Not target.isTouchForMe(e.Location) Then Return
+        ' 2013/4/30 add "status <> InteractionStatus.MouseMove" to fix dragging lost when mouse moving fast
+        If Not target.isTouchForMe(e.Location) And status <> InteractionStatus.MouseMove Then Return
         MyBase.update(sender, e, m)
         If status = InteractionStatus.MouseIdle AndAlso m = MouseEvent.MouseUp Then
             If hasIndicator AndAlso isIndicatorAdded_ Then

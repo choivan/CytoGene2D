@@ -19,6 +19,12 @@
     Private Sub testSimpleGUI()
         Dim simpleGUI As New CGSimpleGUILayer
         scene_.addChild(simpleGUI, kCGTopMostZOrder)
+        simpleGUI.setClickHandlerOfButton(simpleGUI.rightButton, Sub(sender As Object, e As MouseEventArgs, info As Object)
+                                                                     Console.WriteLine("click on right button")
+                                                                 End Sub)
+        simpleGUI.setClickHandlerOfButton(simpleGUI.leftButton, Sub(sender As Object, e As MouseEventArgs, info As Object)
+                                                                    Console.WriteLine("click on left button")
+                                                                End Sub)
     End Sub
 
     Private Sub testButtons()
