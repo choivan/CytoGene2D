@@ -159,11 +159,11 @@ Public Class CGInteractionMoveBy : Inherits CGInteractionMoveTo
     End Sub
 End Class
 
-' NOTE: this interaction only works for CGButton object, otherwise, error throws.
+' NOTE: the interactions with 'Button' in its name only works for CGButtonBase (or subclass of it) object, otherwise, error throws.
 Public Class CGInteractionButton : Inherits CGInteraction
     Public Overrides Sub startWithTarget(ByVal target As Object)
-        Debug.Assert(target.GetType() Is GetType(CGButton) OrElse
-                     target.GetType().IsSubclassOf(GetType(CGButton)),
+        Debug.Assert(target.GetType() Is GetType(CGButtonBase) OrElse
+                     target.GetType().IsSubclassOf(GetType(CGButtonBase)),
                      Me.ToString + ": Invalid type")
         MyBase.startWithTarget(target)
     End Sub
@@ -188,6 +188,32 @@ Public Class CGInteractionButton : Inherits CGInteraction
             If m = MouseEvent.MouseClick Then
                 target.click(e)
             End If
+        End If
+    End Sub
+End Class
+
+Public Class CGInteractionButtonToggle : Inherits CGInteraction
+    Public Overrides Sub startWithTarget(ByVal target As Object)
+        Debug.Assert(target.GetType() Is GetType(CGButtonBase) OrElse
+                     target.GetType().IsSubclassOf(GetType(CGButtonBase)),
+                     Me.ToString + ": Invalid type")
+        MyBase.startWithTarget(target)
+    End Sub
+
+    Public Overrides Sub update(sender As Object, e As MouseEventArgs, m As MouseEvent)
+        If target.status = CGConstant.ButtonStatus.ButtonDisabled Then Return
+        If Not target.isTouchForMe(e.Location) Then
+            status = InteractionStatus.MouseIdle
+            target.setNormal()
+            Return
+        End If
+        MyBase.update(sender, e, m)
+        If m = MouseEvent.MouseClick Then
+            target.toggle(e, Nothing)
+        ElseIf m = MouseEvent.MouseUp Then
+            target.setNormal()
+        ElseIf m = MouseEvent.MouseDown Then
+            target.setSelected()
         End If
     End Sub
 End Class

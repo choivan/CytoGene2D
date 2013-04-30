@@ -25,6 +25,16 @@
             End If
         End Set
     End Property
+    Public ReadOnly Property canvasWidth As Single
+        Get
+            Return canvasSize_.Width
+        End Get
+    End Property
+    Public ReadOnly Property canvasHeight As Single
+        Get
+            Return canvasSize_.Height
+        End Get
+    End Property
     Public ReadOnly Property canvasSize As Size
         Get
             Return canvasSize_

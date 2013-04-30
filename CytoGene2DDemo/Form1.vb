@@ -19,10 +19,39 @@
         Dim button As New CGButton(New RectangleF(350, 500, 100, 40))
         button.title = "OK"
         scene_.addChild(button, kCGTopMostZOrder)
-        button.setDisabled()
-        button.handleClick = Sub(sender As CGButton, e As MouseEventArgs)
-                                 Console.WriteLine(sender.ToString + " is clicked; click location at " + e.Location.ToString)
-                             End Sub
+        'button.setDisabled()
+        button.clickHandler = Sub(sender As CGButtonBase, e As MouseEventArgs, info As Object)
+                                  Console.WriteLine(sender.ToString + " is clicked; click location at " + e.Location.ToString)
+                              End Sub
+
+        Dim button1 As New CGButtonSprite(My.Resources.right_normal, My.Resources.right_selected)
+        button1.center = New PointF(CGDirector.sharedDirector.canvasWidth / 2, CGDirector.sharedDirector.canvasHeight / 2)
+        scene_.addChild(button1, kCGTopMostZOrder)
+        button1.clickHandler = Sub(sender As CGButtonBase, e As MouseEventArgs, info As Object)
+                                   Console.WriteLine(sender.ToString + " is clicked; click location at " + e.Location.ToString)
+                               End Sub
+
+        Dim toggle As New CGButtonToggle(New Rectangle(200, 200, 100, 40))
+        scene_.addChild(toggle, kCGTopMostZOrder)
+        toggle.toggleHandler = Sub(sender As CGButtonBase, e As MouseEventArgs, info As Object)
+                                   If info = True Then
+                                       Console.WriteLine(sender.ToString + " is turned ON")
+                                   Else
+                                       Console.WriteLine(sender.ToString + " is turned OFF")
+                                   End If
+                               End Sub
+
+        Dim toggle1 As New CGButtonToggleSprite(New PointF(350, 200),
+                                                My.Resources.b_toggle_on, My.Resources.b_toggle_off,
+                                                My.Resources.b_toggle_selected, My.Resources.b_toggle_offselected)
+        scene_.addChild(toggle1, kCGTopMostZOrder)
+        toggle1.toggleHandler = Sub(sender As CGButtonBase, e As MouseEventArgs, info As Object)
+                                    If info = True Then
+                                        Console.WriteLine(sender.ToString + " is turned ON")
+                                    Else
+                                        Console.WriteLine(sender.ToString + " is turned OFF")
+                                    End If
+                                End Sub
     End Sub
 
     Private Sub testDNAStrand()

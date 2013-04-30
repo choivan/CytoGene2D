@@ -38,6 +38,14 @@ Public Class CGSprite : Inherits CGNode
         End Get
     End Property
 
+    Sub New(ByVal texture As Bitmap)
+        texture_ = texture
+        location = PointF.Empty
+        contentSize = texture.Size
+        opacity = Byte.MaxValue
+        userInteractionEnabled = False
+    End Sub
+
     Sub New(ByVal texture As Bitmap, ByVal rect As RectangleF)
         texture_ = texture
         location = rect.Location

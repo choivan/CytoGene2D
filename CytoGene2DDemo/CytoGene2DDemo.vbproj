@@ -132,6 +132,24 @@
   <ItemGroup>
     <None Include="Resources\smile.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\right_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\right_selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b_toggle_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b_toggle_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b_toggle_selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b_toggle_offselected.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
