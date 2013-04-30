@@ -43,6 +43,9 @@ Partial Class Form1
         Me.Controls.Add(Me.PictureBox1)
         Me.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.MaximizeBox = False
+        Me.MaximumSize = New System.Drawing.Size(1200, 900)
+        Me.MinimumSize = New System.Drawing.Size(640, 480)
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "CytoGene2DDemo"

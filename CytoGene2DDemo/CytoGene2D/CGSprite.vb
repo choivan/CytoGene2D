@@ -67,8 +67,8 @@ Public Class CGSprite : Inherits CGNode
         Dim context As Graphics = CGDirector.sharedDirector.graphicsContext
         If Me.rotation = 0 Then
             context.DrawImage(texture_, Rectangle.Round(boundingBox),
-                          0, 0, textureSize.Width, textureSize.Height,
-                          GraphicsUnit.Pixel, imageAttributes_)
+                              0, 0, textureSize.Width, textureSize.Height,
+                              GraphicsUnit.Pixel, imageAttributes_)
         Else
             context.TranslateTransform(center.X, center.Y)
             context.RotateTransform(rotation)

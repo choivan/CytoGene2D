@@ -16,7 +16,7 @@
             ' set canvas when initializing or size has been changed.
             If canvas_ Is Nothing OrElse Not canvasBuffer_.Size.Equals(value.ClientSize) And Not value.ClientSize.Equals(Size.Empty) Then
                 canvas_ = value
-                canvasSize_ = value.ClientSize
+                canvasSize_ = value.Size
                 canvasBuffer_ = New Bitmap(canvasSize_.Width, canvasSize_.Height)
                 canvasContext_ = canvas_.CreateGraphics
                 canvasBufferContext_ = Graphics.FromImage(canvasBuffer_)
@@ -145,7 +145,7 @@
     End Sub
 
     Public Sub drawScene()
-        If Not isAnimating Then
+        If Not isAnimating Or currentScene_ Is Nothing Then
             Return
         Else
             scheduler_.update()

@@ -10,9 +10,15 @@
 
         scene_ = New CGScene
         director.runScene(scene_)
-        'testDirectorAndActions()
+        testDirectorAndActions()
         'testDNAStrand()
-        testButtons()
+        'testButtons()
+        testSimpleGUI()
+    End Sub
+
+    Private Sub testSimpleGUI()
+        Dim simpleGUI As New CGSimpleGUILayer
+        scene_.addChild(simpleGUI, kCGTopMostZOrder)
     End Sub
 
     Private Sub testButtons()

@@ -83,6 +83,7 @@
     <Compile Include="CytoGene2D\CGNode.vb" />
     <Compile Include="CytoGene2D\CGScene.vb" />
     <Compile Include="CytoGene2D\CGScheduler.vb" />
+    <Compile Include="CytoGene2D\CGSimpleGUILayer.vb" />
     <Compile Include="CytoGene2D\CGSprite.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
@@ -149,6 +150,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\b_toggle_offselected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\SimpleGUIBottomBar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\simple_left_disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\simple_left_highlighted.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\simple_left_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\simple_left_selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\simple_right_disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\simple_right_highlighted.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\simple_right_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\simple_right_selected.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
