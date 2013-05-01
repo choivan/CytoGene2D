@@ -10,9 +10,9 @@
 
         scene_ = New CGScene
         director.runScene(scene_)
-        'testDirectorAndActions()
+        testDirectorAndActions()
         'testDNAStrand()
-        testButtons()
+        'testButtons()
         testSimpleGUI()
     End Sub
 
@@ -169,6 +169,9 @@
         scene_.addChild(interactiveSmile)
         'Dim moveIA As New CGInteractionMoveTo(New Point(650, 230), True)
         Dim moveIA As New CGInteractionMoveBy(New Point(150, 0), True)
+        moveIA.completionHandler = Sub(sender As Object, info As Object)
+                                       Console.WriteLine(sender.ToString + "'s interaction is done")
+                                   End Sub
         interactiveSmile.addInteraction(moveIA)
 
         Dim scaleSmile As New CGSprite(My.Resources.smile, New PointF(500, 40))

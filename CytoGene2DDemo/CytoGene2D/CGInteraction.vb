@@ -1,4 +1,6 @@
 ﻿Public Class CGInteraction
+    Delegate Sub InteractionHandler(sender As Object, info As Object)
+    Public completionHandler As InteractionHandler = Nothing ' when the interaction is done, the completion handler is called to inform
 
     Private status_ As InteractionStatus
     Public Property status As InteractionStatus
@@ -118,6 +120,9 @@ Public Class CGInteractionMoveTo : Inherits CGInteraction
                 Dim moveTo As New CGMoveTo(3, destination_)
                 target.runAction(moveTo)
                 isDone_ = True
+                If completionHandler IsNot Nothing Then
+                    completionHandler.Invoke(target, Nothing)
+                End If
             Else
                 ' cool!! animation!!!
                 target.userInteractionEnabled = False
