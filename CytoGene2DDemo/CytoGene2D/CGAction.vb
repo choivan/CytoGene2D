@@ -133,12 +133,19 @@ Public Class CGFollow : Inherits CGAction
     Sub New(ByVal fNode As CGNode, ByVal isFixedRelative As Boolean)
         followedNode_ = fNode
         isFixedRelative_ = isFixedRelative
-        delta_ = New PointF(fNode.location.X - target.location.X, fNode.location.Y - target.location.Y)
+    End Sub
+
+    Public Overrides Sub startWithTarget(target As Object)
+        MyBase.startWithTarget(target)
+        If isFixedRelative_ Then
+            delta_ = New PointF(followedNode_.location.X - target.location.X, followedNode_.location.Y - target.location.Y)
+        End If
     End Sub
 
     Public Overrides Sub takeStep()
         If isFixedRelative_ Then
-            target.location = New PointF(followedNode_.location.X - delta_.X, followedNode_.location.Y - delta_.X)
+            If followedNode_.numberOfRunningActions = 0 Then Return ' if the followed node is still, then do not update the position
+            target.location = New PointF(followedNode_.location.X - delta_.X, followedNode_.location.Y - delta_.Y)
         Else
             approachToLeadingNode(target, followedNode_)
         End If
