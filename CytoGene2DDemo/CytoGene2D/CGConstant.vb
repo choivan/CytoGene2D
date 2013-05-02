@@ -4,8 +4,8 @@
     Public Const kCGTopMostZOrder As Integer = Integer.MaxValue
     Public Const kCGBottomMostZOrder As Integer = Integer.MinValue
 
-    Public Const kCGStandardDNANodesGap As Single = 8
-    Public Const kCGStandardDNANodesRadius As Single = 5
+    Public Const kCGStandardDNANodesGap As Single = 2
+    Public Const kCGStandardDNANodesRadius As Single = 4
 
     Public Const kCGDefaultAnimationInterval As Single = 0.02
 

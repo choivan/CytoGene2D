@@ -10,8 +10,8 @@
 
         scene_ = New CGScene
         director.runScene(scene_)
-        testDirectorAndActions()
-        'testDNAStrand()
+        'testDirectorAndActions()
+        testDNAStrand()
         'testButtons()
         testSimpleGUI()
     End Sub
@@ -110,10 +110,10 @@
             Dim dmid As New CGDelayTime(15)
             seq = CGSequence.actionWithArray({d1, unlink, m, dmid, m.reverse, link, d2})
             Dim forever As New CGInfiniteTimeAction(seq)
-            doubleStrand.strand1.getDNANodeAtIndex(i).runAction(forever)
+            'doubleStrand.strand1.getDNANodeAtIndex(i).runAction(forever)
             seq = CGSequence.actionWithArray({d1, m.reverse, dmid, m, d2})
             forever = New CGInfiniteTimeAction(seq)
-            doubleStrand.strand2.getDNANodeAtIndex(i).runAction(forever)
+            'doubleStrand.strand2.getDNANodeAtIndex(i).runAction(forever)
         Next
     End Sub
 

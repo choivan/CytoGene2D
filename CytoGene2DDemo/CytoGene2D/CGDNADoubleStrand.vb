@@ -22,8 +22,6 @@
 
     Public Overrides Sub draw()
         MyBase.draw()
-        strand1_.draw()
-        strand2_.draw()
         Dim context As Graphics = CGDirector.sharedDirector.graphicsContext
         Dim node As CGDNANode = strand1_.first
         For i As Integer = 0 To strand1_.count - 1
@@ -34,6 +32,8 @@
             End If
             node = node.nextNode
         Next
+        strand1_.draw()
+        strand2_.draw()
     End Sub
 
 #Region "Link & unlink operations"
