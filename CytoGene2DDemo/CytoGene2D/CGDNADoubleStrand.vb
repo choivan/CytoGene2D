@@ -20,6 +20,11 @@
         linkTwoStrands(strand1_, strand2_)
     End Sub
 
+    Public Sub dyeDNADoubleStrand(ByVal dyeColor As Color, ByVal startIndex As Integer, ByVal length As Integer)
+        strand1.dyeDNAStrand(dyeColor, startIndex, length)
+        strand2.dyeDNAStrand(dyeColor, startIndex, length)
+    End Sub
+
     Public Overrides Sub draw()
         MyBase.draw()
         Dim context As Graphics = CGDirector.sharedDirector.graphicsContext
