@@ -120,15 +120,28 @@ End Class
 ' node follows the previous node
 Public Class CGFollow : Inherits CGAction
     Private followedNode_ As CGNode
+    Private isFixedRelative_ As Boolean
     Private distance_ As Single
+    Private delta_ As PointF
 
     Sub New(ByVal fNode As CGNode, ByVal distance As Single)
         followedNode_ = fNode
         distance_ = distance
+        isFixedRelative_ = False
+    End Sub
+
+    Sub New(ByVal fNode As CGNode, ByVal isFixedRelative As Boolean)
+        followedNode_ = fNode
+        isFixedRelative_ = isFixedRelative
+        delta_ = New PointF(fNode.location.X - target.location.X, fNode.location.Y - target.location.Y)
     End Sub
 
     Public Overrides Sub takeStep()
-        approachToLeadingNode(target, followedNode_)
+        If isFixedRelative_ Then
+            target.location = New PointF(followedNode_.location.X - delta_.X, followedNode_.location.Y - delta_.X)
+        Else
+            approachToLeadingNode(target, followedNode_)
+        End If
     End Sub
 
     Private Sub approachToLeadingNode(ByVal aNode As Object, ByVal bNode As Object)
@@ -149,6 +162,10 @@ End Class
 Public Class CGFollowForever : Inherits CGFollow
     Sub New(ByVal fNode As CGNode, ByVal distance As Single)
         MyBase.New(fNode, distance)
+    End Sub
+
+    Sub New(ByVal fNode As CGNode, ByVal isFixedRelative As Boolean)
+        MyBase.New(fNode, isFixedRelative)
     End Sub
 
     Public Overrides Function isDone() As Boolean
