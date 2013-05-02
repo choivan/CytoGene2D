@@ -23,7 +23,7 @@
         End Get
         Set(ByVal value As PointF)
             center_ = value
-            location_ = New PointF(center_.X - contentSize_.Width / 2, center_.Y - contentSize_.Width / 2)
+            location_ = New PointF(center_.X - contentSize_.Width / 2, center_.Y - contentSize_.Height / 2)
         End Set
     End Property
     Public Property contentSize As SizeF
@@ -37,6 +37,15 @@
             ' location = location_
             ' keep center the same 
             center = center_
+        End Set
+    End Property
+    Public Property boundingBox As RectangleF
+        Get
+            Return New RectangleF(location_, contentSize_)
+        End Get
+        Set(value As RectangleF)
+            contentSize_ = value.Size
+            location = value.Location
         End Set
     End Property
     Private zOrder_ As Integer
@@ -116,25 +125,22 @@
     End Function
 
     Sub New()
-        Me.visible = True
-        Me.zOrder = 0
-        Me.tag = 0
-        Me.parent = Nothing
-        Me.scale = 1.0
-        Me.location = New PointF(0, 0)
-        Me.center = New PointF(0, 0)
-        Me.contentSize = New SizeF(0, 0)
-        Me.rotation = 0
+        visible = True
+        zOrder_ = 0
+        tag = 0
+        parent = Nothing
+        scale_ = 1.0
+        scaleX_ = 1.0 : scaleY_ = 1.0
+        location_ = PointF.Empty
+        center_ = PointF.Empty
+        contentSize_ = SizeF.Empty
+        rotation_ = 0
         userInteractionEnabled = False
 
         actionManager_ = CGDirector.sharedDirector.actionManager
         scheduler_ = CGDirector.sharedDirector.scheduler
         interactionManager_ = CGDirector.sharedDirector.interactionManager
     End Sub
-
-    Public Function boundingBox() As RectangleF
-        Return new RectangleF(me.location, me.contentSize)
-    End Function
 
     Public Sub cleanup()
         stopAllActions()

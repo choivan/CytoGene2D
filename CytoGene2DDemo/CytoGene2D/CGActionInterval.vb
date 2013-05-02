@@ -93,12 +93,12 @@ Public Class CGMoveTo : Inherits CGActionInterval
 
     Public Overrides Sub startWithTarget(ByVal target As Object)
         MyBase.startWithTarget(target)
-        startPosition_ = CType(target, CGNode).center
+        startPosition_ = target.center
         delta_ = New PointF(endPosition_.X - startPosition_.X, endPosition_.Y - startPosition_.Y)
     End Sub
 
     Public Overrides Sub update(ByVal progress As Single)
-        CType(target, CGNode).center = New PointF(startPosition_.X + progress * delta_.X, startPosition_.Y + progress * delta_.Y)
+        target.center = New PointF(startPosition_.X + progress * delta_.X, startPosition_.Y + progress * delta_.Y)
     End Sub
 End Class
 

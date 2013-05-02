@@ -9,6 +9,16 @@
 
     Public Const kCGDefaultAnimationInterval As Single = 0.02
 
+    Public Const kCGDefaultFontSize As Single = 14.0
+    Public Const kCGFontSizeLarge As Single = 16.0
+    Public Const kCGFontSizeSuperLarge As Single = 20.0
+    Public Const kCGFontSizeSmall As Single = 12.0
+
+    Public Const kCGDefaultFontName As String = "Times New Roman"
+    Public Const kCGFontNameTahoma As String = "Tahoma"
+    Public Const kCGFontNameArial As String = "Arial"
+    Public Const kCGFontNameImpact As String = "Impact"
+
     Enum InteractionStatus
         MouseIdle = 0
         MouseDown

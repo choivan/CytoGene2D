@@ -80,6 +80,7 @@
     <Compile Include="CytoGene2D\CGIndicator.vb" />
     <Compile Include="CytoGene2D\CGInteraction.vb" />
     <Compile Include="CytoGene2D\CGInteractionManager.vb" />
+    <Compile Include="CytoGene2D\CGLabel.vb" />
     <Compile Include="CytoGene2D\CGNode.vb" />
     <Compile Include="CytoGene2D\CGScene.vb" />
     <Compile Include="CytoGene2D\CGScheduler.vb" />

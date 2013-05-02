@@ -144,3 +144,14 @@ Public Class CGFollow : Inherits CGAction
     End Function
 
 End Class
+
+' CGFollowForever action will remain running until is manually removed
+Public Class CGFollowForever : Inherits CGFollow
+    Sub New(ByVal fNode As CGNode, ByVal distance As Single)
+        MyBase.New(fNode, distance)
+    End Sub
+
+    Public Overrides Function isDone() As Boolean
+        Return False
+    End Function
+End Class

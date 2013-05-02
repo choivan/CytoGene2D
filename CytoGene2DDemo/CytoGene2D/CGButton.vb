@@ -88,8 +88,7 @@ Public Class CGButton : Inherits CGButtonBase
         selectedColor_ = Color.Gray
         highlightedColor_ = Color.LightPink
         disabledColor_ = Color.LightGray
-        contentSize = frame.Size
-        location = frame.Location
+        boundingBox = frame
         titleFormat = New StringFormat
         titleFormat.Alignment = StringAlignment.Center
         titleFormat.LineAlignment = StringAlignment.Center
@@ -234,8 +233,7 @@ Public Class CGButtonToggle : Inherits CGButtonBase
 
     Sub New(ByVal frame As RectangleF)
         interaction = New CGInteractionButtonToggle
-        location = frame.Location
-        contentSize = frame.Size
+        boundingBox = frame
         titleFont = SystemFonts.MessageBoxFont
         titleFormat = New StringFormat
         titleFormat.Alignment = StringAlignment.Center
@@ -249,8 +247,7 @@ Public Class CGButtonToggle : Inherits CGButtonBase
             ByVal onColor As Color, ByVal onTitle As String,
             ByVal offColor As Color, ByVal offTitle As String)
         interaction = New CGInteractionButtonToggle
-        location = frame.Location
-        contentSize = frame.Size
+        boundingBox = frame
         titleFont = SystemFonts.MessageBoxFont
         titleFormat = New StringFormat
         titleFormat.Alignment = StringAlignment.Center

@@ -118,6 +118,13 @@
     End Sub
 
     Private Sub testDirectorAndActions()
+        Dim label As New CGLabel("Test Text: Dim fff As New CGInfiniteTimeAction(CGSequence.actionWithArray({mmm, mmm.reverse}))", New RectangleF(0, 300, 700, 60))
+        label.textFont = New Font(kCGDefaultFontName, kCGDefaultFontSize)
+        Dim mmm As New CGMoveBy(90, New PointF(200, 0))
+        Dim fff As New CGInfiniteTimeAction(CGSequence.actionWithArray({mmm, mmm.reverse}))
+        scene_.addChild(label)
+        label.runAction(fff)
+
         Dim node As New CGDNANode(10, Color.Blue, New PointF(10, 10))
         scene_.addChild(node)
         Dim node2 As New CGDNANode(10, Color.Orange, New PointF(-10, 10))
