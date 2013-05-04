@@ -6,6 +6,7 @@
         End Get
     End Property
     Public Sub setHighlighted()
+        If status_ = ButtonStatus.ButtonDisabled Then Return
         status_ = ButtonStatus.ButtonHighlighted
     End Sub
 
@@ -14,14 +15,17 @@
     End Sub
 
     Public Sub setDisabled()
+        If status_ = ButtonStatus.ButtonDisabled Then Return
         status_ = ButtonStatus.ButtonDisabled
     End Sub
 
     Public Sub setNormal()
+        If status_ = ButtonStatus.ButtonDisabled Then Return
         status_ = ButtonStatus.ButtonNormal
     End Sub
 
     Public Sub setSelected()
+        If status_ = ButtonStatus.ButtonDisabled Then Return
         status_ = ButtonStatus.ButtonSelected
     End Sub
 

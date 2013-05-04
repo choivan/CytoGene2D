@@ -15,6 +15,10 @@ Public Class CGInteractionManager
         hashHead_ = Nothing : hashTail_ = Nothing
     End Sub
 
+    Public Function hasInteractionOfTarget(ByVal target As Object) As Boolean
+        Return interactionsHash_.ContainsKey(target)
+    End Function
+
     Public Sub addInteraction(ByVal interaction As CGInteraction, ByVal target As Object)
         Debug.Assert(interaction IsNot Nothing, "interaction cannot be nil")
         Debug.Assert(target IsNot Nothing, "target cannot be nil")
@@ -69,7 +73,7 @@ Public Class CGInteractionManager
             If ti.nextItem IsNot Nothing Then
                 ti.nextItem.lastItem = ti.lastItem
             Else 'ti is tail. remove tail
-                hashTail_ = ti.nextItem
+                hashTail_ = ti.lastItem
             End If
             interactionsHash_.Remove(ti.target)
         End If

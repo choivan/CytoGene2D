@@ -294,6 +294,10 @@
     Public Function numberOfRunningActions() As UInteger
         Return actionManager_.numberOfRunningActionsInTarget(Me)
     End Function
+
+    Public Function hasInteraction() As Boolean
+        Return interactionManager_.hasInteractionOfTarget(Me)
+    End Function
 #End Region
 
 #Region "Interactions"

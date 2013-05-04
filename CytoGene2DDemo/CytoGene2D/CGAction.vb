@@ -144,7 +144,7 @@ Public Class CGFollow : Inherits CGAction
 
     Public Overrides Sub takeStep()
         If isFixedRelative_ Then
-            If followedNode_.numberOfRunningActions = 0 Then Return ' if the followed node is still, then do not update the position
+            If followedNode_.numberOfRunningActions = 0 AndAlso Not followedNode_.hasInteraction Then Return ' if the followed node is still, then do not update the position
             target.location = New PointF(followedNode_.location.X - delta_.X, followedNode_.location.Y - delta_.Y)
         Else
             approachToLeadingNode(target, followedNode_)

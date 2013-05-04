@@ -177,10 +177,13 @@ Public Class CGInteractionButton : Inherits CGInteraction
     End Sub
 
     Public Overrides Sub update(sender As Object, e As MouseEventArgs, m As MouseEvent)
-        If target.status = CGConstant.ButtonStatus.ButtonDisabled Then Return
+        If target.status = CGConstant.ButtonStatus.ButtonDisabled Then
+            status = InteractionStatus.MouseIdle
+            Return
+        End If
         If Not target.isTouchForMe(e.Location) Then ' button rarely moves, if mouse is out of the button, then just set the button state back to normal
             status = InteractionStatus.MouseIdle
-            target.setNormal()
+            If target.status <> ButtonStatus.ButtonHighlighted Then target.setNormal()
             Return
         End If
         MyBase.update(sender, e, m)
@@ -188,9 +191,9 @@ Public Class CGInteractionButton : Inherits CGInteraction
             If m = MouseEvent.MouseMove Then
                 'target.setHighlighted()
             ElseIf m = MouseEvent.MouseUp Then
-                target.setNormal()
+                If target.status <> ButtonStatus.ButtonHighlighted Then target.setNormal()
             End If
-        ElseIf status = InteractionStatus.MouseDown OrElse status = InteractionStatus.MouseMove Then
+        ElseIf status = InteractionStatus.MouseDown Then
             target.setSelected()
             If m = MouseEvent.MouseClick Then
                 target.click(e)
@@ -208,17 +211,20 @@ Public Class CGInteractionButtonToggle : Inherits CGInteraction
     End Sub
 
     Public Overrides Sub update(sender As Object, e As MouseEventArgs, m As MouseEvent)
-        If target.status = CGConstant.ButtonStatus.ButtonDisabled Then Return
+        If target.status = CGConstant.ButtonStatus.ButtonDisabled Then
+            status = InteractionStatus.MouseIdle
+            Return
+        End If
         If Not target.isTouchForMe(e.Location) Then
             status = InteractionStatus.MouseIdle
-            target.setNormal()
+            If target.status <> ButtonStatus.ButtonHighlighted Then target.setNormal()
             Return
         End If
         MyBase.update(sender, e, m)
         If m = MouseEvent.MouseClick Then
             target.toggle(e, Nothing)
         ElseIf m = MouseEvent.MouseUp Then
-            target.setNormal()
+            If target.status <> ButtonStatus.ButtonHighlighted Then target.setNormal()
         ElseIf m = MouseEvent.MouseDown Then
             target.setSelected()
         End If

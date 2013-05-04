@@ -99,7 +99,7 @@
     End Sub
 
 #Region "Nodes Operations"
-    Private Sub addNodeAfter(ByVal node As CGDNANode, ByVal newNode As CGDNANode)
+    Public Sub addNodeAfter(ByVal node As CGDNANode, ByVal newNode As CGDNANode)
         If node.nextNode Is Nothing Then ' add a node after the last node
             node.nextNode = newNode
             newNode.lastNode = node
@@ -113,7 +113,7 @@
         count_ += 1
     End Sub
 
-    Private Sub addNodeBefore(ByVal node As CGDNANode, ByVal newNode As CGDNANode)
+    Public Sub addNodeBefore(ByVal node As CGDNANode, ByVal newNode As CGDNANode)
         If node.lastNode Is Nothing Then ' add a node before the first node
             node.lastNode = newNode
             newNode.nextNode = node
@@ -127,7 +127,7 @@
         count_ += 1
     End Sub
 
-    Public Sub appendDNANode()
+    Private Sub appendDNANode()
         Debug.Assert(count > 0, Me.ToString + ": To append a Node, you should at least have one node")
         Dim lastNodeCenter As PointF = last_.center
         Dim newNodeCenter As PointF
