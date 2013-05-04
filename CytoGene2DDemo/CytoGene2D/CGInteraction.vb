@@ -39,20 +39,22 @@
 
     Public Overridable Sub update(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs, ByVal m As MouseEvent)
         ' overrides me
-        If Not target_.isTouchForMe(e.Location) Then Return
-        If status_ = InteractionStatus.MouseIdle Then
-            If m = MouseEvent.MouseDown Then
-                status_ = InteractionStatus.MouseDown
-            End If
-        ElseIf status_ = InteractionStatus.MouseDown Then
-            If m = MouseEvent.MouseMove Then
-                status_ = InteractionStatus.MouseMove
-            ElseIf m = MouseEvent.MouseUp Then
-                status_ = InteractionStatus.MouseIdle
-            End If
-        ElseIf status_ = InteractionStatus.MouseMove Then
-            If m = MouseEvent.MouseUp Then
-                status_ = InteractionStatus.MouseIdle
+        ' 2013/4/30 add "status <> InteractionStatus.MouseMove" to fix dragging lost when mouse moving fast
+        If target_.isTouchForMe(e.Location) OrElse (status = InteractionStatus.MouseMove) Then
+            If status_ = InteractionStatus.MouseIdle Then
+                If m = MouseEvent.MouseDown Then
+                    status_ = InteractionStatus.MouseDown
+                End If
+            ElseIf status_ = InteractionStatus.MouseDown Then
+                If m = MouseEvent.MouseMove Then
+                    status_ = InteractionStatus.MouseMove
+                ElseIf m = MouseEvent.MouseUp Then
+                    status_ = InteractionStatus.MouseIdle
+                End If
+            ElseIf status_ = InteractionStatus.MouseMove Then
+                If m = MouseEvent.MouseUp Then
+                    status_ = InteractionStatus.MouseIdle
+                End If
             End If
         End If
     End Sub
@@ -106,8 +108,6 @@ Public Class CGInteractionMoveTo : Inherits CGInteraction
     End Function
 
     Public Overrides Sub update(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs, ByVal m As MouseEvent)
-        ' 2013/4/30 add "status <> InteractionStatus.MouseMove" to fix dragging lost when mouse moving fast
-        If Not target.isTouchForMe(e.Location) And status <> InteractionStatus.MouseMove Then Return
         MyBase.update(sender, e, m)
         If status = InteractionStatus.MouseIdle AndAlso m = MouseEvent.MouseUp Then
             If hasIndicator AndAlso isIndicatorAdded_ Then
@@ -176,8 +176,7 @@ Public Class CGInteractionButton : Inherits CGInteraction
 
     Public Overrides Sub update(sender As Object, e As MouseEventArgs, m As MouseEvent)
         If target.status = CGConstant.ButtonStatus.ButtonDisabled Then Return
-
-        If Not target.isTouchForMe(e.Location) Then
+        If Not target.isTouchForMe(e.Location) Then ' button rarely moves, if mouse is out of the button, then just set the button state back to normal
             status = InteractionStatus.MouseIdle
             target.setNormal()
             Return
