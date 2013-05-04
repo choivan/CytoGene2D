@@ -119,16 +119,16 @@ Public Class CGActionManager
     End Sub
 
     Private Sub removeActionsIfNeeded(ByVal ta As TargetedActions)
-        For i As Integer = 0 To ta.actions.Count - 1
-            If ta.actions.Count > 0 Then
-                Dim action As CGAction = ta.actions.Item(i)
-                If action.deletionMark OrElse action.isDone Then
-                    action.stopAction()
-                    ta.actions.RemoveAt(i)
-                    i -= 1
-                End If
+        Dim index As Integer = 0
+        While index < ta.actions.Count
+            Dim action As CGAction = ta.actions.Item(index)
+            If action.deletionMark OrElse action.isDone Then
+                action.stopAction()
+                ta.actions.RemoveAt(index)
+                index -= 1 ' handle index changing while iterating through the action list
             End If
-        Next
+            index += 1
+        End While
         If ta.actions.Count = 0 Then
             If ta.lastItem IsNot Nothing Then
                 ta.lastItem.nextItem = ta.nextItem
@@ -176,11 +176,14 @@ Public Class CGActionManager
         Dim ta As TargetedActions = targetHashHead_
         While ta IsNot Nothing
             If Not ta.paused Then
-                For Each action As CGAction In ta.actions
+                Dim index As Integer = 0
+                While index < ta.actions.Count
+                    Dim action As CGAction = ta.actions(index)
                     If Not action.deletionMark Then
-                        action.takeStep()
+                        action.takeStep() ' the size of the actions list may be changed here.
                     End If
-                Next
+                    index += 1
+                End While
             End If
             Dim tempTa As TargetedActions = ta
             ta = ta.nextItem

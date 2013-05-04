@@ -118,11 +118,13 @@ Public Class CGInteractionMoveTo : Inherits CGInteraction
             End If
             If didTriggerHotSpot() Then
                 Dim moveTo As New CGMoveTo(3, destination_)
-                target.runAction(moveTo)
-                isDone_ = True
-                If completionHandler IsNot Nothing Then
-                    completionHandler.Invoke(target, Nothing)
-                End If
+                target.runAction(New CGSequence(moveTo,
+                                                New CGActionInstant(Sub()
+                                                                        isDone_ = True
+                                                                        If completionHandler IsNot Nothing Then
+                                                                            completionHandler.Invoke(target, Nothing)
+                                                                        End If
+                                                                    End Sub)))
             Else
                 ' cool!! animation!!!
                 target.userInteractionEnabled = False

@@ -6,27 +6,22 @@
         End Get
     End Property
     Public Sub setHighlighted()
-        Me.scale = 1.0
         status_ = ButtonStatus.ButtonHighlighted
     End Sub
 
     Public Sub setEnabled()
-        Me.scale = 1.0
         status_ = ButtonStatus.ButtonNormal
     End Sub
 
     Public Sub setDisabled()
-        Me.scale = 1.0
         status_ = ButtonStatus.ButtonDisabled
     End Sub
 
     Public Sub setNormal()
-        Me.scale = 1.0
         status_ = ButtonStatus.ButtonNormal
     End Sub
 
     Public Sub setSelected()
-        Me.scale = 0.96
         status_ = ButtonStatus.ButtonSelected
     End Sub
 

@@ -10,9 +10,9 @@
 
         scene_ = New CGScene
         director.runScene(scene_)
-        testDirectorAndActions()
+        'testDirectorAndActions()
         'testDNAStrand()
-        'testButtons()
+        testButtons()
         testSimpleGUI()
     End Sub
 

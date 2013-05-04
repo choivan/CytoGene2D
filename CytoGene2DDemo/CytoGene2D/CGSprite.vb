@@ -18,18 +18,16 @@ Public Class CGSprite : Inherits CGNode
         End Get
         Set(ByVal value As Byte) ' overrides the set method to change opacity
             MyBase.opacity = value
-            If value < Byte.MaxValue Then
-                Dim matrixItems As Single()() = { _
-                       New Single() {1, 0, 0, 0, 0}, _
-                       New Single() {0, 1, 0, 0, 0}, _
-                       New Single() {0, 0, 1, 0, 0}, _
-                       New Single() {0, 0, 0, value / 255, 0}, _
-                       New Single() {0, 0, 0, 0, 1}}
-                Dim colorMatrix As New ColorMatrix(matrixItems)
-                imageAttributes_ = New ImageAttributes
-                imageAttributes_.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap)
-                colorMatrix = Nothing 'release it
-            End If
+            Dim matrixItems As Single()() = {
+                   New Single() {1, 0, 0, 0, 0},
+                   New Single() {0, 1, 0, 0, 0},
+                   New Single() {0, 0, 1, 0, 0},
+                   New Single() {0, 0, 0, value / Byte.MaxValue, 0},
+                   New Single() {0, 0, 0, 0, 1}}
+            Dim colorMatrix As New ColorMatrix(matrixItems)
+            imageAttributes_ = New ImageAttributes
+            imageAttributes_.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap)
+            colorMatrix = Nothing 'release it
         End Set
     End Property
     Public ReadOnly Property textureSize As Size
