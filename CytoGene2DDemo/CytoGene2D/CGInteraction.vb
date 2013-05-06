@@ -40,7 +40,7 @@
     Public Overridable Sub update(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs, ByVal m As MouseEvent)
         ' overrides me
         ' 2013/4/30 add "status <> InteractionStatus.MouseMove" to fix dragging lost when mouse moving fast
-        If target_.isTouchForMe(e.Location) OrElse (status = InteractionStatus.MouseMove) Then
+        If target_.isTouchForMe(e.Location) OrElse status = InteractionStatus.MouseMove OrElse status = InteractionStatus.MouseDown Then
             If status_ = InteractionStatus.MouseIdle Then
                 If m = MouseEvent.MouseDown Then
                     status_ = InteractionStatus.MouseDown

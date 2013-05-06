@@ -253,7 +253,7 @@
         children.Remove(child)
     End Sub
 
-    Private Function getChildByTag(ByVal tag As Integer) As CGNode
+    Public Function getChildByTag(ByVal tag As Integer) As CGNode
         For Each node As CGNode In children
             If node.tag = tag Then
                 Return node
