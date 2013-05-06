@@ -143,7 +143,7 @@ Public Class CGFadeTo : Inherits CGActionInterval
     End Sub
 
     Public Overrides Sub update(ByVal progress As Single)
-        target.opacity = fromOpacity_ + (toOpacity_ - fromOpacity_) * progress
+        target.opacity = fromOpacity_ + (CInt(toOpacity_) - CInt(fromOpacity_)) * progress
     End Sub
 End Class
 
