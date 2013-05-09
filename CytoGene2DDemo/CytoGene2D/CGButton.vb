@@ -99,6 +99,12 @@ Public Class CGButton : Inherits CGButtonBase
         titleFont = SystemFonts.MessageBoxFont
     End Sub
 
+    Public Sub setOnlyAvailableWhenHighlighted(setAvailable As Boolean)
+        Dim inter As New CGInteractionButton
+        inter.onlyAvailableHighlighted = setAvailable
+        interaction = inter
+    End Sub
+
     Protected Sub setNormalColor(ByVal color As Color)
         normalColor_ = color
     End Sub

@@ -21,6 +21,8 @@
         End Set
     End Property
 
+    Public swallowMouseEvent As Boolean
+
     Public Overridable Function didTriggerHotSpot() As Boolean
         ' overrides me
         Return False
@@ -40,20 +42,25 @@
     Public Overridable Sub update(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs, ByVal m As MouseEvent)
         ' overrides me
         ' 2013/4/30 add "status <> InteractionStatus.MouseMove" to fix dragging lost when mouse moving fast
+        swallowMouseEvent = False ' not tested. Be aware of this potential issue when interaction is acting strong.
         If target_.isTouchForMe(e.Location) OrElse status = InteractionStatus.MouseMove OrElse status = InteractionStatus.MouseDown Then
             If status_ = InteractionStatus.MouseIdle Then
                 If m = MouseEvent.MouseDown Then
                     status_ = InteractionStatus.MouseDown
+                    swallowMouseEvent = True
                 End If
             ElseIf status_ = InteractionStatus.MouseDown Then
                 If m = MouseEvent.MouseMove Then
                     status_ = InteractionStatus.MouseMove
+                    swallowMouseEvent = True
                 ElseIf m = MouseEvent.MouseUp Then
                     status_ = InteractionStatus.MouseIdle
+                    swallowMouseEvent = True
                 End If
             ElseIf status_ = InteractionStatus.MouseMove Then
                 If m = MouseEvent.MouseUp Then
                     status_ = InteractionStatus.MouseIdle
+                    swallowMouseEvent = True
                 End If
             End If
         End If
@@ -169,6 +176,7 @@ End Class
 
 ' NOTE: the interactions with 'Button' in its name only works for CGButtonBase (or subclass of it) object, otherwise, error throws.
 Public Class CGInteractionButton : Inherits CGInteraction
+    Public onlyAvailableHighlighted As Boolean = False
     Public Overrides Sub startWithTarget(ByVal target As Object)
         Debug.Assert(target.GetType() Is GetType(CGButtonBase) OrElse
                      target.GetType().IsSubclassOf(GetType(CGButtonBase)),
@@ -177,7 +185,7 @@ Public Class CGInteractionButton : Inherits CGInteraction
     End Sub
 
     Public Overrides Sub update(sender As Object, e As MouseEventArgs, m As MouseEvent)
-        If target.status = CGConstant.ButtonStatus.ButtonDisabled Then
+        If target.status = ButtonStatus.ButtonDisabled Then
             status = InteractionStatus.MouseIdle
             Return
         End If
@@ -194,9 +202,16 @@ Public Class CGInteractionButton : Inherits CGInteraction
                 If target.status <> ButtonStatus.ButtonHighlighted Then target.setNormal()
             End If
         ElseIf status = InteractionStatus.MouseDown Then
+            Dim lastStatus As ButtonStatus = target.status
             target.setSelected()
-            If m = MouseEvent.MouseClick Then
-                target.click(e)
+            If lastStatus = ButtonStatus.ButtonHighlighted Then
+                target.setHighlighted()
+            End If
+            If Not onlyAvailableHighlighted OrElse
+                (onlyAvailableHighlighted AndAlso target.status = ButtonStatus.ButtonHighlighted) Then
+                If m = MouseEvent.MouseClick Then
+                    target.click(e)
+                End If
             End If
         End If
     End Sub

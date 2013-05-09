@@ -83,6 +83,9 @@ Public Class CGInteractionManager
         Dim ti As TargetedInteraction = hashHead_
         While ti IsNot Nothing
             ti.interaction.update(sender, e, m)
+            If ti.interaction.swallowMouseEvent Then
+                Exit While
+            End If
             If ti.interaction.isDone Then
                 Dim tempTI As TargetedInteraction = ti
                 ti = ti.nextItem
