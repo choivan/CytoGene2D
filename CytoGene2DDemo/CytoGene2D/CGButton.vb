@@ -39,12 +39,12 @@
     End Property
     ' button events (add more if needed)
     ' 1. event-based implementation
-    Event onClick(ByVal sender As CGButtonBase, ByVal e As MouseEventArgs)
-    Event onToggle(ByVal sender As CGButtonBase, ByVal e As MouseEventArgs, ByVal isOn As Boolean)
+    Event onClick(sender As CGButtonBase, e As MouseEventArgs)
+    Event onToggle(sender As CGButtonBase, e As MouseEventArgs, isOn As Boolean)
 
     ' 2. Delegate-based implementation (NOTE: This implementation has higher priority, which means if a delegate is set, than the event is never raised)
     '       Programmer is responsible for knowing the type of info
-    Delegate Sub MouseEventHandler(ByVal sender As CGButtonBase, ByVal e As MouseEventArgs, ByVal info As Object)
+    Delegate Sub MouseEventHandler(sender As CGButtonBase, e As MouseEventArgs, info As Object)
     Public clickHandler As MouseEventHandler = Nothing ' init to nothing
     Public toggleHandler As MouseEventHandler = Nothing
 

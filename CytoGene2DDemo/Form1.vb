@@ -7,17 +7,23 @@
         director.canvas = PictureBox1
         director.mainWindow = Me
         director.animationInterval = 0.02
-
         scene_ = New CGScene
         director.runScene(scene_)
-        'testDirectorAndActions()
+        testDirectorAndActions()
         'testDNAStrand()
-        testButtons()
+        'testButtons()
         testSimpleGUI()
     End Sub
 
+    Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
+        Me.Width = Screen.PrimaryScreen.Bounds.Width
+        Me.Height = Screen.PrimaryScreen.Bounds.Height
+        Me.CenterToScreen()
+    End Sub
+
     Private Sub testSimpleGUI()
-        Dim simpleGUI As New CGSimpleGUILayer
+        Dim simpleGUI As New CGSimpleGUILayer(True)
         scene_.addChild(simpleGUI, kCGTopMostZOrder)
         simpleGUI.setClickHandlerOfButton(simpleGUI.rightButton, Sub(sender As Object, e As MouseEventArgs, info As Object)
                                                                      Console.WriteLine("click on right button")

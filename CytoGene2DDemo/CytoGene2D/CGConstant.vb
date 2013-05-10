@@ -19,6 +19,11 @@
     Public Const kCGFontNameArial As String = "Arial"
     Public Const kCGFontNameImpact As String = "Impact"
 
+    Public kScreenAvailableWidth As Integer = Screen.PrimaryScreen.WorkingArea.Width
+    Public kScreenAvailableHeight As Integer = Screen.PrimaryScreen.WorkingArea.Height
+    Public kScreenFullWidth As Integer = Screen.PrimaryScreen.Bounds.Width
+    Public kScreenFullHeight As Integer = Screen.PrimaryScreen.Bounds.Height
+
     Enum InteractionStatus
         MouseIdle = 0
         MouseDown

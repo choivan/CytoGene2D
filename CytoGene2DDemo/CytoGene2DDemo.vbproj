@@ -179,6 +179,18 @@
   <ItemGroup>
     <None Include="CytoGene2D\Resources\simple_right_selected.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\simple_close_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\simple_close_selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\simple_mini_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CytoGene2D\Resources\simple_mini_selected.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

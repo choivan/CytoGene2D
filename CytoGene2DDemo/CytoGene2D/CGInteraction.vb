@@ -185,6 +185,7 @@ Public Class CGInteractionButton : Inherits CGInteraction
     End Sub
 
     Public Overrides Sub update(sender As Object, e As MouseEventArgs, m As MouseEvent)
+        swallowMouseEvent = False
         If target.status = ButtonStatus.ButtonDisabled Then
             status = InteractionStatus.MouseIdle
             Return
@@ -226,6 +227,7 @@ Public Class CGInteractionButtonToggle : Inherits CGInteraction
     End Sub
 
     Public Overrides Sub update(sender As Object, e As MouseEventArgs, m As MouseEvent)
+        swallowMouseEvent = False
         If target.status = CGConstant.ButtonStatus.ButtonDisabled Then
             status = InteractionStatus.MouseIdle
             Return

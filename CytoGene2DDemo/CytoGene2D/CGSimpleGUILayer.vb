@@ -3,6 +3,9 @@
     Private bottomBar_ As CGSprite ' Self draw bottom bar. do not add it as a child
     Private rightButton_ As CGButtonSprite
     Private leftButton_ As CGButtonSprite
+    Private miniButton_ As CGButtonSprite
+    Private closeButton_ As CGButtonSprite
+    Private isFullScreen_ As Boolean
 
     Public ReadOnly Property rightButton As CGButtonSprite
         Get
@@ -16,7 +19,8 @@
         End Get
     End Property
 
-    Sub New()
+    Sub New(Optional isFullScreen As Boolean = False)
+        isFullScreen_ = isFullScreen
         mainWindow_ = CGDirector.sharedDirector.mainWindow
 
         location = PointF.Empty
@@ -33,6 +37,28 @@
                                          My.Resources.simple_left_disabled)
         Me.addChild(rightButton_)
         Me.addChild(leftButton_)
+        If isFullScreen Then
+            miniButton_ = New CGButtonSprite(PointF.Empty,
+                                         My.Resources.simple_mini_normal,
+                                         My.Resources.simple_mini_selected)
+            closeButton_ = New CGButtonSprite(PointF.Empty,
+                                              My.Resources.simple_close_normal,
+                                              My.Resources.simple_close_selected)
+            Dim miniInteraction As New CGInteractionButton
+            miniButton_.addInteraction(miniInteraction)
+            Dim closeInteraction As New CGInteractionButton
+            closeButton_.addInteraction(closeInteraction)
+            Me.addChild(miniButton_)
+            Me.addChild(closeButton_)
+            miniButton_.clickHandler = Sub(sender As CGButtonBase, e As MouseEventArgs, info As Object)
+                                           Debug.Assert(CGDirector.sharedDirector.mainWindow IsNot Nothing, Me.ToString + ": Main window property is not set up")
+                                           CGDirector.sharedDirector.mainWindow.WindowState = FormWindowState.Minimized
+                                       End Sub
+            closeButton_.clickHandler = Sub(sender As CGButtonBase, e As MouseEventArgs, info As Object)
+                                            Debug.Assert(CGDirector.sharedDirector.mainWindow IsNot Nothing, Me.ToString + ": Main window property is not set up")
+                                            CGDirector.sharedDirector.mainWindow.Close()
+                                        End Sub
+        End If
         resetUIElementsPosition()
     End Sub
 
@@ -63,6 +89,10 @@
                                          contentSize.Height - rightButton_.contentSize.Height / 2)
         leftButton_.center = New PointF(contentSize.Width / 2 - 1.5 * leftButton_.contentSize.Width,
                                         contentSize.Height - leftButton_.contentSize.Height / 2)
+        If isFullScreen_ Then
+            miniButton_.center = New PointF(contentSize.Width - miniButton_.contentSize.Width * 1.75, miniButton_.contentSize.Height * 0.75)
+            closeButton_.center = New PointF(contentSize.Width - closeButton_.contentSize.Width * 0.75, closeButton_.contentSize.Height * 0.75)
+        End If
     End Sub
 
     Private Sub mainWindow__SizeChanged(sender As Object, e As EventArgs) Handles mainWindow_.SizeChanged
