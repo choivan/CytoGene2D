@@ -86,6 +86,9 @@
     <Compile Include="CytoGene2D\CGScheduler.vb" />
     <Compile Include="CytoGene2D\CGSimpleGUILayer.vb" />
     <Compile Include="CytoGene2D\CGSprite.vb" />
+    <Compile Include="CytoGene2D\CGTextParser.vb" />
+    <Compile Include="CytoGene2D\CGTextRender.vb" />
+    <Compile Include="CytoGene2D\CGTextView.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>

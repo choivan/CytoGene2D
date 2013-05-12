@@ -40,6 +40,11 @@
             Return canvasSize_
         End Get
     End Property
+    Public ReadOnly Property canvasBounds As Rectangle
+        Get
+            Return New Rectangle(0, 0, canvasSize.Width, canvasSize.Height)
+        End Get
+    End Property
     Public ReadOnly Property graphicsContext As Graphics
         Get
             Return canvasBufferContext_
@@ -53,7 +58,6 @@
             mainWindow_ = value
         End Set
     End Property
-
     Private animationInterval_ As Single '1 = 1 second.
     Public Property animationInterval As Single
         Get
@@ -112,12 +116,14 @@
 
     ' generate singleton Director
     Public Shared Function sharedDirector() As CGDirector
-        SyncLock lock_ ' thread safe
-            If sharedDirector_ Is Nothing Then
-                sharedDirector_ = New CGDirector
-            End If
-            Return sharedDirector_
-        End SyncLock
+        If sharedDirector_ Is Nothing Then ' update sync code to improve performance
+            SyncLock lock_
+                If sharedDirector_ Is Nothing Then
+                    sharedDirector_ = New CGDirector
+                End If
+            End SyncLock
+        End If
+        Return sharedDirector_
     End Function
 
     Public Sub startAnimation()

@@ -19,6 +19,12 @@
         End Get
     End Property
 
+    Public ReadOnly Property BottomBarHeight As Single
+        Get
+            Return bottomBar_.boundingBox.Height
+        End Get
+    End Property
+
     Sub New(Optional isFullScreen As Boolean = False)
         isFullScreen_ = isFullScreen
         mainWindow_ = CGDirector.sharedDirector.mainWindow

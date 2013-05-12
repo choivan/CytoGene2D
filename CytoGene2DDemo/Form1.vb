@@ -15,18 +15,28 @@
         testSimpleGUI()
     End Sub
 
-    Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-        Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
-        Me.Width = Screen.PrimaryScreen.Bounds.Width
-        Me.Height = Screen.PrimaryScreen.Bounds.Height
-        Me.CenterToScreen()
-    End Sub
+    'Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+    '    Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
+    '    Me.Width = Screen.PrimaryScreen.Bounds.Width
+    '    Me.Height = Screen.PrimaryScreen.Bounds.Height
+    '    Me.CenterToScreen()
+    'End Sub
 
     Private Sub testSimpleGUI()
-        Dim simpleGUI As New CGSimpleGUILayer(True)
-        scene_.addChild(simpleGUI, kCGTopMostZOrder)
+        Dim simpleGUI As New CGSimpleGUILayer()
+        Dim textView As New CGTextView(New RectangleF(0, 260, CGDirector.sharedDirector.canvasWidth, CGDirector.sharedDirector.canvasHeight - 260 - simpleGUI.BottomBarHeight))
+        textView.parseFile("test.txt")
+        scene_.addChild(textView)
+        scene_.addChild(simpleGUI, kCGBottomMostZOrder)
         simpleGUI.setClickHandlerOfButton(simpleGUI.rightButton, Sub(sender As Object, e As MouseEventArgs, info As Object)
                                                                      Console.WriteLine("click on right button")
+                                                                     If textView.hasNext() Then
+                                                                         textView.showNextParagraph()
+                                                                         If Not textView.hasNext() Then
+                                                                             simpleGUI.rightButton.setDisabled()
+                                                                         End If
+                                                                     End If
+
                                                                  End Sub)
         simpleGUI.setClickHandlerOfButton(simpleGUI.leftButton, Sub(sender As Object, e As MouseEventArgs, info As Object)
                                                                     Console.WriteLine("click on left button")
@@ -124,12 +134,12 @@
     End Sub
 
     Private Sub testDirectorAndActions()
-        Dim label As New CGLabel("Test Text: Dim fff As New CGInfiniteTimeAction(CGSequence.actionWithArray({mmm, mmm.reverse}))", New RectangleF(0, 300, 700, 60))
-        label.textFont = New Font(kCGDefaultFontName, kCGDefaultFontSize)
-        Dim mmm As New CGMoveBy(90, New PointF(200, 0))
-        Dim fff As New CGInfiniteTimeAction(CGSequence.actionWithArray({mmm, mmm.reverse}))
-        scene_.addChild(label)
-        label.runAction(fff)
+        'Dim label As New CGLabel("Test Text: Dim fff As New CGInfiniteTimeAction(CGSequence.actionWithArray({mmm, mmm.reverse}))", New RectangleF(0, 300, 700, 60))
+        'label.textFont = New Font(kCGDefaultFontName, kCGDefaultFontSize)
+        'Dim mmm As New CGMoveBy(90, New PointF(200, 0))
+        'Dim fff As New CGInfiniteTimeAction(CGSequence.actionWithArray({mmm, mmm.reverse}))
+        'scene_.addChild(label)
+        'label.runAction(fff)
 
         Dim node As New CGDNANode(10, Color.Blue, New PointF(10, 10))
         scene_.addChild(node)
