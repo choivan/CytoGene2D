@@ -201,7 +201,7 @@ Public Class CGInteractionButton : Inherits CGInteraction
                 'target.setHighlighted()
             ElseIf m = MouseEvent.MouseUp Then
                 If Not onlyAvailableHighlighted OrElse
-                    (onlyAvailableHighlighted AndAlso target.status = onlyAvailableHighlighted) Then
+                    (onlyAvailableHighlighted AndAlso target.status = ButtonStatus.ButtonHighlighted) Then
                     target.click(e)
                 End If
                 If target.status <> ButtonStatus.ButtonHighlighted Then target.setNormal()

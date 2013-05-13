@@ -1,6 +1,7 @@
 ﻿' this is a singleton class
 Imports System.Text.RegularExpressions
 Public Class CGTextRender
+    Private stringFormat_ As StringFormat
     Private fontSetted_ As Boolean = False
     Private fontName_ As String
     Private fontSize_ As Single
@@ -16,6 +17,8 @@ Public Class CGTextRender
     Private redBrush_ As Brush = Brushes.Red
 
     Private currentStartLocation_ As PointF
+
+    Private trailingShadowWidth_ As Single
 
     Private orderedListNumber_ As Integer = 0
     Public Property orderedListNumber As Integer
@@ -33,6 +36,11 @@ Public Class CGTextRender
 
     Public Sub resetOrderedListNumber()
         orderedListNumber_ = 0
+    End Sub
+
+    Sub New()
+        stringFormat_ = New StringFormat
+        stringFormat_.FormatFlags = StringFormatFlags.MeasureTrailingSpaces
     End Sub
 
     Public Sub render(g As Graphics, attributedLine As List(Of AttributedString),
@@ -199,6 +207,7 @@ Public Class CGTextRender
     Public Sub setFontHeight(g As Graphics)
         If Not fontSetted_ Then Return
         basicFontHeight_ = g.MeasureString("A", basicBoldFont_).Height
+        trailingShadowWidth_ = g.MeasureString("..", basicRegularFont_, 50, stringFormat_).Width - g.MeasureString(".", basicRegularFont_, 50, stringFormat_).Width
     End Sub
 
     Public Sub setBasicFont(fontName As String, fontSize As Single)
@@ -211,9 +220,9 @@ Public Class CGTextRender
         Me.fontSetted_ = True
     End Sub
 
-    Public Function getSizeOfLineWithConstraintSize(g As Graphics,
-                                                    line As List(Of AttributedString),
-                                                    constraintSize As SizeF) As SizeF
+    Public Function getSizeOfParagraphWithConstraintSize(g As Graphics,
+                                                         line As List(Of AttributedString),
+                                                         constraintSize As SizeF) As SizeF
         Dim orderSymbolWidth As Single = 0
         Dim aString As AttributedString = line(0)
         Dim allContent As String = ""
@@ -262,38 +271,55 @@ Public Class CGTextRender
     Public Function getWidthOfAttributedString(g As Graphics, aString As AttributedString) As Single
         If aString.attribute = FontAttribute.FontAttributeTitle1 Then
             Dim title1Font As New Font(fontName_, fontSize_ + kTitle1FontSizeOffset, FontStyle.Bold)
-            Return g.MeasureString(aString.content, title1Font).Width
+            'Return g.MeasureString(aString.content, title1Font).Width
+            Return meansureStringWidth(g, aString.content, title1Font)
         ElseIf aString.attribute = FontAttribute.FontAttributeTitle2 Then
-            Dim title1Font As New Font(fontName_, fontSize_ + kTitle2FontSizeOffset, FontStyle.Bold)
-            Return g.MeasureString(aString.content, title1Font).Width
+            Dim title2Font As New Font(fontName_, fontSize_ + kTitle2FontSizeOffset, FontStyle.Bold)
+            'Return g.MeasureString(aString.content, title2Font).Width
+            Return meansureStringWidth(g, aString.content, title2Font)
         ElseIf aString.attribute = FontAttribute.FontAttributeTitle3 Then
-            Dim title1Font As New Font(fontName_, fontSize_ + kTitle3FontSizeOffset, FontStyle.Bold)
-            Return g.MeasureString(aString.content, title1Font).Width
+            Dim title3Font As New Font(fontName_, fontSize_ + kTitle3FontSizeOffset, FontStyle.Bold)
+            'Return g.MeasureString(aString.content, title3Font).Width
+            Return measureString(g, aString.content, title3Font).Width
         ElseIf aString.attribute = FontAttribute.FontAttributeOrderedList Then
-            Return g.MeasureString(aString.content, basicRegularFont_).Width * 4
+            'Return g.MeasureString(aString.content, basicRegularFont_).Width * 4
+            Return meansureStringWidth(g, aString.content, basicRegularFont_) * 4
         ElseIf aString.attribute = FontAttribute.FontAttributeUnorderedList Then
-            Return g.MeasureString(aString.content, basicRegularFont_).Width * 2
+            'Return g.MeasureString(aString.content, basicRegularFont_).Width * 2
+            Return meansureStringWidth(g, aString.content, basicRegularFont_) * 2
         Else
             If containAttribute(aString.attribute, FontAttribute.FontAttributeRegular) Then
                 If containAttribute(aString.attribute, FontAttribute.FontAttributeItalic) Then
-                    Return g.MeasureString(aString.content, basicItalicFont_).Width
+                    'Return g.MeasureString(aString.content, basicItalicFont_).Width
+                    Return meansureStringWidth(g, aString.content, basicItalicFont_)
                 End If
-                Return g.MeasureString(aString.content, basicRegularFont_).Width
+                'Return g.MeasureString(aString.content, basicRegularFont_).Width
+                Return meansureStringWidth(g, aString.content, basicRegularFont_)
             End If
             If containAttribute(aString.attribute, FontAttribute.FontAttributeBold) Then
                 If containAttribute(aString.attribute, FontAttribute.FontAttributeItalic) Then
                     Dim boldItalicFont As New Font(fontName_, fontSize_, FontStyle.Bold Or FontStyle.Italic)
-                    Return g.MeasureString(aString.content, boldItalicFont).Width
+                    'Return g.MeasureString(aString.content, boldItalicFont).Width
+                    Return meansureStringWidth(g, aString.content, boldItalicFont)
                 End If
-                Return g.MeasureString(aString.content, basicBoldFont_).Width
+                'Return g.MeasureString(aString.content, basicBoldFont_).Width
+                Return meansureStringWidth(g, aString.content, basicBoldFont_)
             End If
             If containAttribute(aString.attribute, FontAttribute.FontAttributeItalic) Then
-                Return g.MeasureString(aString.content, basicItalicFont_).Width
+                'Return g.MeasureString(aString.content, basicItalicFont_).Width
+                Return meansureStringWidth(g, aString.content, basicItalicFont_)
             End If
             ' default case. may never reach here.
-            Return g.MeasureString(aString.content, basicRegularFont_).Width
+            'Return g.MeasureString(aString.content, basicRegularFont_).Width
+            Return meansureStringWidth(g, aString.content, basicRegularFont_)
         End If
     End Function
 
+    Private Function measureString(g As Graphics, text As String, f As Font) As SizeF
+        Return g.MeasureString(text, f, New PointF(0, 0), stringFormat_)
+    End Function
 
+    Private Function meansureStringWidth(g As Graphics, text As String, f As Font) As Single
+        Return g.MeasureString(text, f, New PointF(0, 0), stringFormat_).Width - trailingShadowWidth_
+    End Function
 End Class

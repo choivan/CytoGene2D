@@ -20,19 +20,23 @@
     Private orderedListStartNumber_ As Integer
 
     Sub New(frame As RectangleF)
+        setFrame(frame)
         textParser_ = New CGTextParser
         textRenderer_ = New CGTextRender
         setBasicFont(kCGDefaultFontName, kCGDefaultFontSize)
-        originalFrame_ = frame
         currentPage_ = 0
         pagesStartingIndices_ = New List(Of Integer) : pagesStartingIndices_.Add(0)
         pagesEndingIndices_ = New List(Of Integer) : pagesEndingIndices_.Add(0)
-        setPageMargin(New Margin(10, 10, 10, 10))
         paragraphVerticalOffset_ = 0
     End Sub
 
     Public Sub parseFile(fileName As String)
         textParser.processFile(fileName)
+    End Sub
+
+    Public Sub setFrame(frame As RectangleF)
+        originalFrame_ = frame
+        setPageMargin(New Margin(10, 10, 10, 10))
     End Sub
 
     Public Sub setBasicFont(fontName As String, fontSize As Single)
@@ -61,7 +65,7 @@
 
     Public Sub showNextParagraph()
         Dim index As Integer = pagesEndingIndices_(currentPage_) + 1
-        Dim size As SizeF = textRenderer.getSizeOfLineWithConstraintSize(CGDirector.sharedDirector.graphicsContext,
+        Dim size As SizeF = textRenderer.getSizeOfParagraphWithConstraintSize(CGDirector.sharedDirector.graphicsContext,
                                                                          textParser.attributedParagraphs(index), contentSize)
         If paragraphVerticalOffset_ + size.Height > boundingBox.Height Then ' goes to next page
             orderedListStartNumber_ = textRenderer.orderedListNumber ' fix ordered list number continous growing issue
@@ -82,7 +86,7 @@
         Dim verticalOffset As Single = boundingBox.Y
         textRenderer.orderedListNumber = orderedListStartNumber_
         For i As Integer = startIndex To endIndex
-            Dim lineSize As SizeF = textRenderer.getSizeOfLineWithConstraintSize(context,
+            Dim lineSize As SizeF = textRenderer.getSizeOfParagraphWithConstraintSize(context,
                                                                                  textParser.attributedParagraphs(i),
                                                                                  boundingBox.Size)
             textRenderer.render(context,
