@@ -54,7 +54,7 @@
         MouseDown = 0
         MouseMove
         MouseUp
-        MouseClick
+        'MouseClick ' not in use
     End Enum
 
     Enum ButtonStatus

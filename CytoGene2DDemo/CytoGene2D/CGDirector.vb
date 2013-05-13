@@ -171,9 +171,9 @@
         drawScene()
     End Sub
 
-    Private Sub canvas__MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles canvas_.MouseClick
-        interactionManager_.update(sender, e, MouseEvent.MouseClick)
-    End Sub
+    'Private Sub canvas__MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles canvas_.MouseClick
+    '    interactionManager_.update(sender, e, MouseEvent.MouseClick)
+    'End Sub
 
     Private Sub canvas__MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles canvas_.MouseDown
         interactionManager_.update(sender, e, MouseEvent.MouseDown)

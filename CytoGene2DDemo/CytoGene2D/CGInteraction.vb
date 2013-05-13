@@ -212,12 +212,6 @@ Public Class CGInteractionButton : Inherits CGInteraction
             If lastStatus = ButtonStatus.ButtonHighlighted Then
                 target.setHighlighted()
             End If
-            If Not onlyAvailableHighlighted OrElse
-                (onlyAvailableHighlighted AndAlso target.status = ButtonStatus.ButtonHighlighted) Then
-                If m = MouseEvent.MouseClick Then
-                    target.click(e)
-                End If
-            End If
         End If
     End Sub
 End Class
@@ -242,9 +236,7 @@ Public Class CGInteractionButtonToggle : Inherits CGInteraction
             Return
         End If
         MyBase.update(sender, e, m)
-        If m = MouseEvent.MouseClick Then
-            target.toggle(e, Nothing)
-        ElseIf m = MouseEvent.MouseUp Then
+        If m = MouseEvent.MouseUp Then
             target.toggle(e, Nothing)
             If target.status <> ButtonStatus.ButtonHighlighted Then target.setNormal()
         ElseIf m = MouseEvent.MouseDown Then
