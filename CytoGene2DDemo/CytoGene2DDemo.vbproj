@@ -89,6 +89,7 @@
     <Compile Include="CytoGene2D\CGTextParser.vb" />
     <Compile Include="CytoGene2D\CGTextRender.vb" />
     <Compile Include="CytoGene2D\CGTextView.vb" />
+    <Compile Include="CytoGene2D\CGTimeMachine.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>

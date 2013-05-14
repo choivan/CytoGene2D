@@ -25,21 +25,35 @@
     Private Sub testSimpleGUI()
         Dim simpleGUI As New CGSimpleGUILayer()
         Dim textView As New CGTextView(New RectangleF(0, 260, CGDirector.sharedDirector.canvasWidth, CGDirector.sharedDirector.canvasHeight - 260 - simpleGUI.BottomBarHeight))
+        Dim timeMachineLayer As New CGSprite(My.Resources.smile, New PointF(CGDirector.sharedDirector.canvasWidth / 2, CGDirector.sharedDirector.canvasHeight / 2))
+        scene_.addChild(timeMachineLayer, kCGTopMostZOrder)
+        timeMachineLayer.visible = False
         textView.parseFile("test.txt")
         scene_.addChild(textView)
-        scene_.addChild(simpleGUI, kCGBottomMostZOrder)
+        scene_.addChild(simpleGUI, kCGTopMostZOrder)
         simpleGUI.setClickHandlerOfButton(simpleGUI.rightButton, Sub(sender As Object, e As MouseEventArgs, info As Object)
                                                                      Console.WriteLine("click on right button")
-                                                                     If textView.hasNext() Then
-                                                                         textView.showNextParagraph()
-                                                                         If Not textView.hasNext() Then
-                                                                             simpleGUI.rightButton.setDisabled()
+                                                                     If CGDirector.sharedDirector.timeMachine.hasNextRecord Then
+                                                                         timeMachineLayer.visible = True
+                                                                         timeMachineLayer.texture = CGDirector.sharedDirector.timeMachine.nextRecord()
+                                                                     Else
+                                                                         If textView.hasNext() AndAlso Not timeMachineLayer.visible Then
+                                                                             textView.showNextParagraph()
+                                                                             If Not textView.hasNext() Then
+                                                                                 simpleGUI.rightButton.setDisabled()
+                                                                             End If
+                                                                             CGDirector.sharedDirector.timeMachine.record()
+                                                                             Console.WriteLine("   ===>   record")
                                                                          End If
+                                                                         timeMachineLayer.visible = False
                                                                      End If
-
                                                                  End Sub)
         simpleGUI.setClickHandlerOfButton(simpleGUI.leftButton, Sub(sender As Object, e As MouseEventArgs, info As Object)
                                                                     Console.WriteLine("click on left button")
+                                                                    If CGDirector.sharedDirector.timeMachine.hasPreviousRecord Then
+                                                                        timeMachineLayer.visible = True
+                                                                        timeMachineLayer.texture = CGDirector.sharedDirector.timeMachine.previousRecord()
+                                                                    End If
                                                                 End Sub)
     End Sub
 

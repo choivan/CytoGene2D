@@ -25,6 +25,11 @@
             End If
         End Set
     End Property
+    Public ReadOnly Property canvasBuff As Bitmap
+        Get
+            Return canvasBuffer_
+        End Get
+    End Property
     Public ReadOnly Property canvasWidth As Single
         Get
             Return canvasSize_.Width
@@ -99,6 +104,12 @@
             Return interactionManager_
         End Get
     End Property
+    Private timeMachine_ As CGTimeMachine
+    Public ReadOnly Property timeMachine As CGTimeMachine
+        Get
+            Return timeMachine_
+        End Get
+    End Property
 
     Protected Sub New()
         currentScene_ = Nothing
@@ -112,6 +123,7 @@
         actionManager_ = New CGActionManager
         scheduler_.scheduleUpdate(actionManager_, kCGPrioritySystem, False)
         interactionManager_ = New CGInteractionManager ' interaction manager is not scheduled. it is driven by user mouse / keyboard event
+        timeMachine_ = New CGTimeMachine
     End Sub
 
     ' generate singleton Director
@@ -151,11 +163,6 @@
     End Sub
 
     Public Sub drawScene()
-        If Not isAnimating Or currentScene_ Is Nothing Then
-            Return
-        Else
-            scheduler_.update()
-        End If
         ' clear background to white. 
         '  IS IT REALLY NEEDED TO RESET THE BACKGROUND TO WHITE HERE?
         '    In the future, maybe can provide a colored layer to customize.
@@ -168,6 +175,11 @@
     End Sub
 
     Private Sub mainLoop(ByVal sender As Object, ByVal e As System.EventArgs) Handles timer_.Tick
+        If Not isAnimating Or currentScene_ Is Nothing Then
+            Return
+        Else
+            scheduler_.update()
+        End If
         drawScene()
     End Sub
 

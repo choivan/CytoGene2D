@@ -236,6 +236,7 @@
     End Sub
 
     Public Sub removeAllChildren(ByVal cleanup As Boolean)
+        If children Is Nothing Then Return
         For Each node As CGNode In children
             If cleanup Then
                 node.cleanup()
@@ -254,6 +255,7 @@
     End Sub
 
     Public Function getChildByTag(ByVal tag As Integer) As CGNode
+        If children Is Nothing Then Return Nothing
         For Each node As CGNode In children
             If node.tag = tag Then
                 Return node
