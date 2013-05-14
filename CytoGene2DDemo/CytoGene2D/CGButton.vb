@@ -29,6 +29,12 @@
         status_ = ButtonStatus.ButtonSelected
     End Sub
 
+    Public ReadOnly Property disabled As Boolean
+        Get
+            Return status = ButtonStatus.ButtonDisabled
+        End Get
+    End Property
+
     Private interaction_ As CGInteraction
     Public WriteOnly Property interaction As CGInteraction ' Buttonbase do not specify which button behavior it is. Set the button behavior on the fly!
         Set(value As CGInteraction)
@@ -69,6 +75,10 @@
     Sub New()
         status_ = ButtonStatus.ButtonNormal
     End Sub
+
+    Public Overrides Function canSlower() As Boolean
+        Return True
+    End Function
 End Class
 
 Public Class CGButton : Inherits CGButtonBase

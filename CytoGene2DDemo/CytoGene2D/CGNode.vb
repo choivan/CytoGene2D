@@ -331,6 +331,20 @@
         ' overrides me!
     End Sub
 
+    Public Overridable Function canSlower() As Boolean
+        If Not visible Then Return True
+        If children IsNot Nothing Then
+            For Each child As CGNode In children
+                If Not child.canSlower Then Return False
+            Next
+        End If
+        If (numberOfRunningActions() = 0 OrElse actionManager.onlyContainFollowAction(Me)) AndAlso
+           Not interactionManager_.hasInteractionOfTarget(Me) Then
+            Return True
+        End If
+        Return False
+    End Function
+
     Public Overridable Sub visit()
         If Not visible Then
             Return

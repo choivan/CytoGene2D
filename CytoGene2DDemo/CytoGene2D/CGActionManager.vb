@@ -162,6 +162,23 @@ Public Class CGActionManager
         Return action
     End Function
 
+    Public Function onlyContainFollowAction(ByVal target As Object) As Boolean
+        Debug.Assert(target IsNot Nothing, "target cannot be nil")
+        Dim ret As Boolean = True
+        Dim action As CGAction = Nothing
+        If targetActionsHash_.ContainsKey(target) Then
+            Dim ta As TargetedActions = targetActionsHash_.Item(target)
+            For Each a As CGAction In ta.actions
+                If a.GetType IsNot GetType(CGFollow) AndAlso
+                    Not a.GetType.IsSubclassOf(GetType(CGFollow)) Then
+                    ret = False
+                    Return ret
+                End If
+            Next
+        End If
+        Return ret
+    End Function
+
     Public Function numberOfRunningActionsInTarget(ByVal target As Object) As UInteger
         Debug.Assert(target IsNot Nothing, "target cannot be nil")
         Dim number As UInteger = 0

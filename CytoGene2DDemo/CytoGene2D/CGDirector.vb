@@ -76,7 +76,7 @@
             End If
         End Set
     End Property
-    'Public isPaused As Boolean
+    Public isInLongIntervalMode As Boolean
     Public isAnimating As Boolean
 
     Private currentScene_ As CGScene
@@ -115,9 +115,9 @@
         currentScene_ = Nothing
         canvas_ = Nothing
         canvasSize_ = New Size(0, 0)
-        'isPaused = True
         isAnimating = False
-        animationInterval = 0.04
+        isInLongIntervalMode = False
+        animationInterval = kCGDefaultAnimationInterval
 
         scheduler_ = New CGScheduler
         actionManager_ = New CGActionManager
@@ -143,6 +143,7 @@
             Return
         End If
         isAnimating = True
+        isInLongIntervalMode = False
         timer_ = New Windows.Forms.Timer()
         timer_.Interval = animationInterval * 1000
         timer_.Start()
@@ -155,6 +156,23 @@
         timer_.Stop()
         timer_ = Nothing
         isAnimating = False
+        isInLongIntervalMode = True
+    End Sub
+
+    Private Sub switchToLongInterval()
+        If isInLongIntervalMode Then
+            Return
+        End If
+        isInLongIntervalMode = True
+        timer_.Interval = kCGLongAnimationInterval * 1000
+    End Sub
+
+    Private Sub switchToNormalInterval()
+        If Not isInLongIntervalMode Then
+            Return
+        End If
+        isInLongIntervalMode = False
+        timer_.Interval = animationInterval_ * 1000
     End Sub
 
     Public Sub runScene(ByVal scene As CGScene)
@@ -172,6 +190,13 @@
         currentScene_.visit()
 
         canvasContext_.DrawImage(canvasBuffer_, New Point(0, 0))
+
+        If currentScene_.canSlower Then
+            switchToLongInterval()
+        Else
+            switchToNormalInterval()
+        End If
+        'Console.WriteLine("timer interval: " + timer_.Interval.ToString)
     End Sub
 
     Private Sub mainLoop(ByVal sender As Object, ByVal e As System.EventArgs) Handles timer_.Tick
@@ -189,6 +214,7 @@
 
     Private Sub canvas__MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles canvas_.MouseDown
         interactionManager_.update(sender, e, MouseEvent.MouseDown)
+        If isInLongIntervalMode Then drawScene()
     End Sub
 
     Private Sub canvas__MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles canvas_.MouseMove
@@ -197,6 +223,7 @@
 
     Private Sub canvas__MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles canvas_.MouseUp
         interactionManager_.update(sender, e, MouseEvent.MouseUp)
+        If isInLongIntervalMode Then drawScene()
     End Sub
 
     'responding to resizing event

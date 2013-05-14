@@ -2,11 +2,11 @@
     Private screenShots_ As List(Of Bitmap)
     Private lastRecordIndex_ As Integer
     Private currentIndex_ As Integer
-    Public ReadOnly Property isTimeTraveling As Boolean
-        Get
-            Return currentIndex_ < lastRecordIndex_ - 1
-        End Get
-    End Property
+    'Public ReadOnly Property isTimeTraveling As Boolean
+    '    Get
+    '        Return currentIndex_ < lastRecordIndex_ - 1
+    '    End Get
+    'End Property
 
     Sub New()
         screenShots_ = New List(Of Bitmap)
@@ -29,7 +29,7 @@
     End Function
 
     Public Function hasNextRecord() As Boolean
-        Dim hasNext As Boolean = isTimeTraveling
+        Dim hasNext As Boolean = currentIndex_ < (lastRecordIndex_ - 1)
         If Not hasNext Then currentIndex_ = lastRecordIndex_
         Return hasNext
     End Function
