@@ -16,6 +16,8 @@ Inspired by cocos2D.
 
 "<:\xx>": The format of the tag to control the format of a string. 
 
+"<:\img>image_file_path": The special tag for displaying a image. One example is, "<:\img>imges\smile.png". Note 1: "image_file_path" is the relative path to the executable file. Note 2: after applying the image tag, the font attributes are cleared. Therefore, you should add the font attribute again before the next paragraph!
+
 Available formats:
 
 1. Font
@@ -35,6 +37,7 @@ Following is a complete example of how to use the tags.
 ```
 >Cytogenetics
 <:\fi>From Wikipedia, the free encyclopedia
+<:\img>images\smile.png
 <:\fb>Cytogenetics <:\fr>is a branch of genetics that is concerned with the study of the structure and 
 function of the cell, especially the chromosomes. It includes routine analysis of G-banded chromosomes, 
 other cytogenetic banding techniques, as well as molecular cytogenetics such as fluorescent in <:\fi>situ 
