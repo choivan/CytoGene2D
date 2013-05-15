@@ -27,7 +27,7 @@
         currentPage_ = 0
         pagesStartingIndices_ = New List(Of Integer) : pagesStartingIndices_.Add(0)
         pagesEndingIndices_ = New List(Of Integer) : pagesEndingIndices_.Add(0)
-        paragraphVerticalOffset_ = 0 
+        paragraphVerticalOffset_ = 0
     End Sub
 
     Public Sub parseFile(fileName As String)

@@ -105,12 +105,14 @@ Public Class CGTextRender
     End Sub
 
     ' using current font and color to render
+    ' TODO: refactor this method if have time. ugly.. really...
     Private Sub renderContent(g As Graphics, aString As AttributedString,
                               startLocation As PointF, indentWidth As Single,
                               layoutRect As RectangleF)
         Dim stringWidth As Single = getWidthOfAttributedString(g, aString)
-        If stringWidth + startLocation.X - indentWidth > layoutRect.Width Then ' goes to the next lines
-            Dim ratio As Single = (layoutRect.Width - startLocation.X - indentWidth) / stringWidth
+        If stringWidth + startLocation.X - indentWidth > (layoutRect.Width + layoutRect.Left) Then ' goes to the next lines
+            Dim remainWidth As Single = layoutRect.Width + layoutRect.Left - startLocation.X - indentWidth
+            Dim ratio As Single = remainWidth / stringWidth
             Dim strLength As Integer = aString.content.Length
             Dim spiltIndex As Integer = Math.Floor(strLength * ratio)
             spiltIndex = IIf(spiltIndex < 0, 0, spiltIndex)
@@ -118,13 +120,25 @@ Public Class CGTextRender
                 spiltIndex -= 1
             End While
             Dim subStr1 As String = aString.content.Substring(0, spiltIndex)
+            Dim subStr1Width As Single = getWidthOfAttributedString(g, subStr1, aString.attribute)
+            While subStr1Width > remainWidth                    ' the reason of this while loop to compare the new substring length with total remain length is
+                ratio = remainWidth / subStr1Width              ' the font used are not fixed-width mostly. 
+                spiltIndex = Math.Floor(subStr1.Length * ratio) ' But calculating the ratio and finding the spilt index may result the substring have greater physical width.
+                spiltIndex = IIf(spiltIndex < 0, 0, spiltIndex)
+                While spiltIndex > 0 AndAlso aString.content(spiltIndex) <> " "c
+                    spiltIndex -= 1
+                End While
+                subStr1 = aString.content.Substring(0, spiltIndex)
+                subStr1Width = getWidthOfAttributedString(g, subStr1, aString.attribute)
+            End While
             Dim subStr2 As String = aString.content.Substring(spiltIndex + 1)
             g.DrawString(subStr1, currentFontStyle_, currentFontColor_, startLocation)
-            currentStartLocation_.X = layoutRect.Left
+            currentStartLocation_.X = layoutRect.Left + indentWidth
             currentStartLocation_.Y += basicFontHeight_
             stringWidth = getWidthOfAttributedString(g, subStr2, aString.attribute)
-            While stringWidth > layoutRect.Width
-                ratio = layoutRect.Width / stringWidth
+            While stringWidth > (layoutRect.Width - indentWidth)
+                remainWidth = layoutRect.Width - indentWidth
+                ratio = remainWidth / stringWidth
                 strLength = subStr2.Length
                 spiltIndex = Math.Floor(strLength * ratio)
                 spiltIndex = IIf(spiltIndex < 0, 0, spiltIndex)
@@ -132,15 +146,26 @@ Public Class CGTextRender
                     spiltIndex -= 1
                 End While
                 subStr1 = subStr2.Substring(0, spiltIndex)
+                subStr1Width = getWidthOfAttributedString(g, subStr1, aString.attribute)
+                While subStr1Width > remainWidth
+                    ratio = remainWidth / subStr1Width
+                    spiltIndex = Math.Floor(subStr1.Length * ratio)
+                    spiltIndex = IIf(spiltIndex < 0, 0, spiltIndex)
+                    While spiltIndex > 0 AndAlso subStr2(spiltIndex) <> " "c
+                        spiltIndex -= 1
+                    End While
+                    subStr1 = subStr2.Substring(0, spiltIndex)
+                    subStr1Width = getWidthOfAttributedString(g, subStr1, aString.attribute)
+                End While
                 subStr2 = subStr2.Substring(spiltIndex + 1)
                 g.DrawString(subStr1, currentFontStyle_, currentFontColor_, currentStartLocation_)
                 stringWidth = getWidthOfAttributedString(g, subStr2, aString.attribute)
-                currentStartLocation_.X = layoutRect.Left
+                currentStartLocation_.X = layoutRect.Left + indentWidth
                 currentStartLocation_.Y += basicFontHeight_
             End While
             If subStr2.Length > 0 Then
                 g.DrawString(subStr2, currentFontStyle_, currentFontColor_, currentStartLocation_)
-                currentStartLocation_.X = layoutRect.Left + getWidthOfAttributedString(g, subStr2, aString.attribute)
+                currentStartLocation_.X += getWidthOfAttributedString(g, subStr2, aString.attribute)
             End If
         Else ' within current line
             g.DrawString(aString.content, currentFontStyle_, currentFontColor_, startLocation)
@@ -208,7 +233,7 @@ Public Class CGTextRender
 
     Public Sub setFontHeight(g As Graphics)
         If Not fontSetted_ Then Return
-        basicFontHeight_ = g.MeasureString("A", basicBoldFont_).Height
+        basicFontHeight_ = g.MeasureString("A", basicBoldFont_).Height + kCGLineDistanceFixOffset
         trailingShadowWidth_ = g.MeasureString("..", basicRegularFont_, 50, stringFormat_).Width - g.MeasureString(".", basicRegularFont_, 50, stringFormat_).Width
     End Sub
 
@@ -234,7 +259,7 @@ Public Class CGTextRender
                                        constraintSize.Height)
         ElseIf aString.attribute = FontAttribute.FontAttributeOrderedList Then
             orderSymbolWidth = meansureStringWidth(g, aString.content, basicRegularFont_) * 7
-            constraintSize = New SizeF(constraintSize.Width - 0, _
+            constraintSize = New SizeF(constraintSize.Width - orderSymbolWidth, _
                                        constraintSize.Height)
         ElseIf aString.attribute = FontAttribute.FontAttributeTitle1 Then
             Dim title1Font As New Font(fontName_, fontSize_ + kTitle1FontSizeOffset, FontStyle.Bold)
@@ -311,10 +336,10 @@ Public Class CGTextRender
     End Function
 
     Private Function measureString(g As Graphics, text As String, f As Font) As SizeF
-        Return g.MeasureString(text, f, New PointF(0, 0), stringFormat_)
+        Return g.MeasureString(text, f, PointF.Empty, stringFormat_)
     End Function
 
     Private Function meansureStringWidth(g As Graphics, text As String, f As Font) As Single
-        Return g.MeasureString(text, f, New PointF(0, 0), stringFormat_).Width - trailingShadowWidth_
+        Return g.MeasureString(text, f, PointF.Empty, stringFormat_).Width - trailingShadowWidth_
     End Function
 End Class

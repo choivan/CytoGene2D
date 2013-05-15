@@ -7,6 +7,8 @@
     Public Const kCGStandardDNANodesGap As Single = 2
     Public Const kCGStandardDNANodesRadius As Single = 4
 
+    Public Const kCGLineDistanceFixOffset As Single = -2
+
     Public Const kCGDefaultAnimationInterval As Single = 0.02 ' update per 20 millisecond
     Public Const kCGLongAnimationInterval As Single = 100 ' update per 100 second
 
