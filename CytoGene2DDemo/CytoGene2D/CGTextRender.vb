@@ -87,6 +87,8 @@ Public Class CGTextRender
             currentStartLocation_.X += indentWidth
             layoutArea = New RectangleF(currentStartLocation_.X, currentStartLocation_.Y, _
                                         layoutArea.Width - indentWidth, layoutArea.Height)
+        ElseIf containAttribute(aString.attribute, FontAttribute.FontAttributeImage) Then
+            g.DrawImage(New Bitmap(aString.content), layoutArea)
         Else ' render content
             resetOrderedListNumber()
             synthesisFontStyleAndColor(aString.attribute)
@@ -227,22 +229,24 @@ Public Class CGTextRender
         Dim aString As AttributedString = line(0)
         Dim allContent As String = ""
         If aString.attribute = FontAttribute.FontAttributeUnorderedList Then
-            orderSymbolWidth = g.MeasureString(aString.content, basicRegularFont_, constraintSize).Width * 2
+            orderSymbolWidth = meansureStringWidth(g, aString.content, basicRegularFont_) * 2
             constraintSize = New SizeF(constraintSize.Width - orderSymbolWidth, _
                                        constraintSize.Height)
         ElseIf aString.attribute = FontAttribute.FontAttributeOrderedList Then
-            orderSymbolWidth = g.MeasureString(aString.content, basicRegularFont_, constraintSize).Width * 7
-            constraintSize = New SizeF(constraintSize.Width - orderSymbolWidth, _
+            orderSymbolWidth = meansureStringWidth(g, aString.content, basicRegularFont_) * 7
+            constraintSize = New SizeF(constraintSize.Width - 0, _
                                        constraintSize.Height)
         ElseIf aString.attribute = FontAttribute.FontAttributeTitle1 Then
             Dim title1Font As New Font(fontName_, fontSize_ + kTitle1FontSizeOffset, FontStyle.Bold)
-            Return g.MeasureString(aString.content, title1Font, constraintSize)
+            Return g.MeasureString(aString.content, title1Font, constraintSize, stringFormat_)
         ElseIf aString.attribute = FontAttribute.FontAttributeTitle2 Then
             Dim title1Font As New Font(fontName_, fontSize_ + kTitle2FontSizeOffset, FontStyle.Bold)
-            Return g.MeasureString(aString.content, title1Font, constraintSize)
+            Return g.MeasureString(aString.content, title1Font, constraintSize, stringFormat_)
         ElseIf aString.attribute = FontAttribute.FontAttributeTitle3 Then
             Dim title1Font As New Font(fontName_, fontSize_ + kTitle3FontSizeOffset, FontStyle.Bold)
-            Return g.MeasureString(aString.content, title1Font, constraintSize)
+            Return g.MeasureString(aString.content, title1Font, constraintSize, stringFormat_)
+        ElseIf containAttribute(aString.attribute, FontAttribute.FontAttributeImage) Then
+            Return New Bitmap(aString.content).Size
         Else
             allContent += aString.content
         End If
@@ -256,7 +260,7 @@ Public Class CGTextRender
                 hasBold = True
             End If
         Next
-        Dim newSize As SizeF = g.MeasureString(allContent, IIf(hasBold, basicBoldFont_, basicRegularFont_), constraintSize)
+        Dim newSize As SizeF = g.MeasureString(allContent, IIf(hasBold, basicBoldFont_, basicRegularFont_), constraintSize, stringFormat_)
         Return New SizeF(constraintSize.Width + orderSymbolWidth,
                          newSize.Height)
     End Function
@@ -282,6 +286,8 @@ Public Class CGTextRender
             Return meansureStringWidth(g, aString.content, basicRegularFont_) * 7
         ElseIf aString.attribute = FontAttribute.FontAttributeUnorderedList Then
             Return meansureStringWidth(g, aString.content, basicRegularFont_) * 2
+        ElseIf containAttribute(aString.attribute, FontAttribute.FontAttributeImage) Then
+            Return New Bitmap(aString.content).Size.Width
         Else
             If containAttribute(aString.attribute, FontAttribute.FontAttributeRegular) Then
                 If containAttribute(aString.attribute, FontAttribute.FontAttributeItalic) Then

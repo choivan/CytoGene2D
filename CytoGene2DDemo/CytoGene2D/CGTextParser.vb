@@ -135,17 +135,20 @@ Public Class CGTextParser
         currentFontStyle_ = FontAttribute.FontAttributeNone
 
         ' font style
-        If rawString.IndexOf("\fr") <> -1 Then 'regular
+        If rawString.Contains("\fr") Then 'regular
             currentFontStyle_ = currentFontStyle_ Or FontAttribute.FontAttributeRegular ' font style can stack
         End If
-        If rawString.IndexOf("\fb") <> -1 And currentFontStyle_ <> FontAttribute.FontAttributeRegular Then
+        If rawString.Contains("\fb") And currentFontStyle_ <> FontAttribute.FontAttributeRegular Then
             currentFontStyle_ = currentFontStyle_ Or FontAttribute.FontAttributeBold
         End If
-        If rawString.IndexOf("\fi") <> -1 Then
+        If rawString.Contains("\fi") Then
             currentFontStyle_ = currentFontStyle_ Or FontAttribute.FontAttributeItalic
         End If
-        If rawString.IndexOf("\fu") <> -1 Then
+        If rawString.Contains("\fu") Then
             currentFontStyle_ = currentFontStyle_ Or FontAttribute.FontAttributeUnderLine
+        End If
+        If rawString.Contains("\img") Then
+            currentFontStyle_ = FontAttribute.FontAttributeImage
         End If
         ' attribute tag does not contain font style information. so do not change it
         If currentFontStyle_ = FontAttribute.FontAttributeNone Then
@@ -153,13 +156,13 @@ Public Class CGTextParser
         End If
 
         ' font color
-        If rawString.IndexOf("\ck") <> -1 Then ' color attribute cannot stack.
+        If rawString.Contains("\ck") Then ' color attribute cannot stack.
             currentFontColor_ = FontAttribute.FontAttributeColorBlack
         End If
-        If rawString.IndexOf("\cr") <> -1 Then ' color attribute cannot stack.
+        If rawString.Contains("\cr") Then ' color attribute cannot stack.
             currentFontColor_ = FontAttribute.FontAttributeColorRed
         End If
-        If rawString.IndexOf("\cb") <> -1 Then ' color attribute cannot stack.
+        If rawString.Contains("\cb") Then ' color attribute cannot stack.
             currentFontColor_ = FontAttribute.FontAttributeColorBlue
         End If
         ' attribute tag does not contain font color information. so do not change it
