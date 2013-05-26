@@ -41,6 +41,10 @@
         strand2_.draw()
     End Sub
 
+    Public Overrides Function canSlower() As Boolean
+        Return strand1_.canSlower And strand2_.canSlower
+    End Function
+
 #Region "Link & unlink operations"
     Private Sub linkTwoStrands(ByVal strand1 As CGDNASingleStrand, ByVal strand2 As CGDNASingleStrand)
         Debug.Assert(strand1_.count = strand2_.count, Me.ToString + ": strands size not match")

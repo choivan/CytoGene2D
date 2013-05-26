@@ -72,6 +72,11 @@
         button.clickHandler = Clickhandler
     End Sub
 
+    Public Sub highlightButtonDelayed(button As CGButtonSprite, delayTime As Integer)
+        Me.runAction(CGSequence.actionWithArray({New CGDelayTime(delayTime),
+                                                 New CGActionInstant(Sub() button.setHighlighted())}))
+    End Sub
+
     Public Overrides Sub draw()
         MyBase.draw()
         Dim context As Graphics = CGDirector.sharedDirector.graphicsContext

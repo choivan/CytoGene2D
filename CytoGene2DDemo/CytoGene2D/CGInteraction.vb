@@ -177,6 +177,7 @@ End Class
 ' NOTE: the interactions with 'Button' in its name only works for CGButtonBase (or subclass of it) object, otherwise, error throws.
 Public Class CGInteractionButton : Inherits CGInteraction
     Public onlyAvailableHighlighted As Boolean = False
+    Private acceptClick_ As Boolean = False
     Public Overrides Sub startWithTarget(ByVal target As Object)
         Debug.Assert(target.GetType() Is GetType(CGButtonBase) OrElse
                      target.GetType().IsSubclassOf(GetType(CGButtonBase)),
@@ -193,6 +194,8 @@ Public Class CGInteractionButton : Inherits CGInteraction
         If Not target.isTouchForMe(e.Location) Then ' button rarely moves, if mouse is out of the button, then just set the button state back to normal
             status = InteractionStatus.MouseIdle
             If target.status <> ButtonStatus.ButtonHighlighted Then target.setNormal()
+            If acceptClick_ AndAlso onlyAvailableHighlighted Then target.setHighlighted()
+            acceptClick_ = False
             Return
         End If
         MyBase.update(sender, e, m)
@@ -200,18 +203,28 @@ Public Class CGInteractionButton : Inherits CGInteraction
             If m = MouseEvent.MouseMove Then
                 'target.setHighlighted()
             ElseIf m = MouseEvent.MouseUp Then
-                If Not onlyAvailableHighlighted OrElse
-                    (onlyAvailableHighlighted AndAlso target.status = ButtonStatus.ButtonHighlighted) Then
+                If acceptClick_ OrElse
+                    (onlyAvailableHighlighted And target.status = ButtonStatus.ButtonHighlighted) Then ' fix lost click event when onlyavailablewhenhighlighted enabled
+                    acceptClick_ = False
                     target.click(e)
                 End If
-                If target.status <> ButtonStatus.ButtonHighlighted Then target.setNormal()
+                target.setNormal()
+                'If Not onlyAvailableHighlighted OrElse
+                '    (onlyAvailableHighlighted AndAlso target.status = ButtonStatus.ButtonHighlighted) Then
+                '    target.click(e)
+                'End If
+                'If target.status <> ButtonStatus.ButtonHighlighted Then target.setNormal()
             End If
         ElseIf status = InteractionStatus.MouseDown Then
             Dim lastStatus As ButtonStatus = target.status
-            target.setSelected()
-            If lastStatus = ButtonStatus.ButtonHighlighted Then
-                target.setHighlighted()
+            If Not onlyAvailableHighlighted OrElse
+                    (onlyAvailableHighlighted AndAlso target.status = ButtonStatus.ButtonHighlighted) Then
+                acceptClick_ = True
             End If
+            target.setSelected()
+            'If lastStatus = ButtonStatus.ButtonHighlighted Then
+            '    target.setHighlighted()
+            'End If
         End If
     End Sub
 End Class

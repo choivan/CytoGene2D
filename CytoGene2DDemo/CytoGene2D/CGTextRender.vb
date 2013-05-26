@@ -33,6 +33,7 @@ Public Class CGTextRender
     Private Const kTitle1FontSizeOffset As Integer = 6
     Private Const kTitle2FontSizeOffset As Integer = 4
     Private Const kTitle3FontSizeOffset As Integer = 2
+    Private Const kSuperScriptFontSizeOffset As Integer = -4
 
     Public Sub resetOrderedListNumber()
         orderedListNumber_ = 0
@@ -51,7 +52,6 @@ Public Class CGTextRender
 
         currentStartLocation_.X = layoutArea.Left
         currentStartLocation_.Y = layoutArea.Top
-        Dim indentWidth As Single = 0
 
         Dim aString As AttributedString = attributedLine(0)
         If aString.attribute = FontAttribute.FontAttributeTitle1 Then
@@ -68,7 +68,7 @@ Public Class CGTextRender
             g.DrawString(aString.content, title1Font, blackBrush_, layoutArea)
         ElseIf aString.attribute = FontAttribute.FontAttributeOrderedList Then
             orderedListNumber_ += 1
-            indentWidth = getWidthOfAttributedString(g, aString)
+            Dim indentWidth As Single = getWidthOfAttributedString(g, aString)
             Dim orderNumberIndent As String
             If orderedListNumber_ > 9 Then ' assume order list has less than 100 items
                 orderNumberIndent = "    "
@@ -82,24 +82,27 @@ Public Class CGTextRender
                                         layoutArea.Width - indentWidth, layoutArea.Height)
         ElseIf aString.attribute = FontAttribute.FontAttributeUnorderedList Then
             resetOrderedListNumber()
-            indentWidth = getWidthOfAttributedString(g, aString)
+            Dim indentWidth As Single = getWidthOfAttributedString(g, aString)
             g.DrawString(aString.content, basicRegularFont_, blackBrush_, layoutArea)
             currentStartLocation_.X += indentWidth
             layoutArea = New RectangleF(currentStartLocation_.X, currentStartLocation_.Y, _
                                         layoutArea.Width - indentWidth, layoutArea.Height)
         ElseIf containAttribute(aString.attribute, FontAttribute.FontAttributeImage) Then
-            g.DrawImage(New Bitmap(aString.content), layoutArea)
+            Dim image As New Bitmap(aString.content)
+            g.DrawImage(image, New RectangleF(layoutArea.Location, image.Size))
+            currentStartLocation_.X = layoutArea.Left
+            currentStartLocation_.Y += image.Size.Height
         Else ' render content
             resetOrderedListNumber()
             synthesisFontStyleAndColor(aString.attribute)
-            renderContent(g, aString, currentStartLocation_, indentWidth, layoutArea)
+            renderContent(g, aString, currentStartLocation_, layoutArea)
         End If
 
         If attributedLine.Count > 1 Then
             For i As Integer = 1 To attributedLine.Count - 1
                 aString = attributedLine(i)
                 synthesisFontStyleAndColor(aString.attribute)
-                renderContent(g, aString, currentStartLocation_, indentWidth, layoutArea)
+                renderContent(g, aString, currentStartLocation_, layoutArea)
             Next
         End If
     End Sub
@@ -107,11 +110,11 @@ Public Class CGTextRender
     ' using current font and color to render
     ' TODO: refactor this method if have time. ugly.. really...
     Private Sub renderContent(g As Graphics, aString As AttributedString,
-                              startLocation As PointF, indentWidth As Single,
+                              startLocation As PointF,
                               layoutRect As RectangleF)
         Dim stringWidth As Single = getWidthOfAttributedString(g, aString)
-        If stringWidth + startLocation.X - indentWidth > (layoutRect.Width + layoutRect.Left) Then ' goes to the next lines
-            Dim remainWidth As Single = layoutRect.Width + layoutRect.Left - startLocation.X - indentWidth
+        If stringWidth + startLocation.X > (layoutRect.Width + layoutRect.Left) Then ' goes to the next lines
+            Dim remainWidth As Single = layoutRect.Width + layoutRect.Left - startLocation.X
             Dim ratio As Single = remainWidth / stringWidth
             Dim strLength As Integer = aString.content.Length
             Dim spiltIndex As Integer = Math.Floor(strLength * ratio)
@@ -131,13 +134,13 @@ Public Class CGTextRender
                 subStr1 = aString.content.Substring(0, spiltIndex)
                 subStr1Width = getWidthOfAttributedString(g, subStr1, aString.attribute)
             End While
-            Dim subStr2 As String = aString.content.Substring(spiltIndex + 1)
+            Dim subStr2 As String = aString.content.Substring(IIf(spiltIndex = 0, 0, spiltIndex + 1))
             g.DrawString(subStr1, currentFontStyle_, currentFontColor_, startLocation)
-            currentStartLocation_.X = layoutRect.Left + indentWidth
+            currentStartLocation_.X = layoutRect.Left
             currentStartLocation_.Y += basicFontHeight_
             stringWidth = getWidthOfAttributedString(g, subStr2, aString.attribute)
-            While stringWidth > (layoutRect.Width - indentWidth)
-                remainWidth = layoutRect.Width - indentWidth
+            While stringWidth > (layoutRect.Width)
+                remainWidth = layoutRect.Width
                 ratio = remainWidth / stringWidth
                 strLength = subStr2.Length
                 spiltIndex = Math.Floor(strLength * ratio)
@@ -157,10 +160,10 @@ Public Class CGTextRender
                     subStr1 = subStr2.Substring(0, spiltIndex)
                     subStr1Width = getWidthOfAttributedString(g, subStr1, aString.attribute)
                 End While
-                subStr2 = subStr2.Substring(spiltIndex + 1)
+                subStr2 = subStr2.Substring(IIf(spiltIndex = 0, 0, spiltIndex + 1))
                 g.DrawString(subStr1, currentFontStyle_, currentFontColor_, currentStartLocation_)
                 stringWidth = getWidthOfAttributedString(g, subStr2, aString.attribute)
-                currentStartLocation_.X = layoutRect.Left + indentWidth
+                currentStartLocation_.X = layoutRect.Left
                 currentStartLocation_.Y += basicFontHeight_
             End While
             If subStr2.Length > 0 Then
@@ -229,6 +232,9 @@ Public Class CGTextRender
         If currentFontColor_ Is Nothing Then
             currentFontColor_ = blackBrush_
         End If
+        If containAttribute(att, FontAttribute.FontAttributeSuperScript) Then
+            currentFontStyle_ = New Font(currentFontStyle_.FontFamily, currentFontStyle_.Size + kSuperScriptFontSizeOffset)
+        End If
     End Sub
 
     Public Sub setFontHeight(g As Graphics)
@@ -247,11 +253,12 @@ Public Class CGTextRender
         Me.fontSetted_ = True
     End Sub
 
-    Public Function getSizeOfParagraphWithConstraintSize(g As Graphics,
-                                                         line As List(Of AttributedString),
-                                                         constraintSize As SizeF) As SizeF
+    Private Function getSizeOfParagraphWithConstraintSize(g As Graphics,
+                                                          line As List(Of AttributedString),
+                                                          startIndex As Integer,
+                                                          constraintSize As SizeF) As SizeF
         Dim orderSymbolWidth As Single = 0
-        Dim aString As AttributedString = line(0)
+        Dim aString As AttributedString = line(startIndex)
         Dim allContent As String = ""
         If aString.attribute = FontAttribute.FontAttributeUnorderedList Then
             orderSymbolWidth = meansureStringWidth(g, aString.content, basicRegularFont_) * 2
@@ -271,7 +278,12 @@ Public Class CGTextRender
             Dim title1Font As New Font(fontName_, fontSize_ + kTitle3FontSizeOffset, FontStyle.Bold)
             Return g.MeasureString(aString.content, title1Font, constraintSize, stringFormat_)
         ElseIf containAttribute(aString.attribute, FontAttribute.FontAttributeImage) Then
-            Return New Bitmap(aString.content).Size
+            Dim imageSize As Size = New Bitmap(aString.content).Size
+            Dim nextSize As SizeF = SizeF.Empty
+            If line.Count > 1 Then
+                nextSize = getSizeOfParagraphWithConstraintSize(g, line, startIndex + 1, constraintSize)
+            End If
+            Return New SizeF(constraintSize.Width, imageSize.Height + nextSize.Height)
         Else
             allContent += aString.content
         End If
@@ -288,6 +300,12 @@ Public Class CGTextRender
         Dim newSize As SizeF = g.MeasureString(allContent, IIf(hasBold, basicBoldFont_, basicRegularFont_), constraintSize, stringFormat_)
         Return New SizeF(constraintSize.Width + orderSymbolWidth,
                          newSize.Height)
+    End Function
+
+    Public Function getSizeOfParagraphWithConstraintSize(g As Graphics,
+                                                         line As List(Of AttributedString),
+                                                         constraintSize As SizeF) As SizeF
+        Return getSizeOfParagraphWithConstraintSize(g, line, 0, constraintSize)
     End Function
 
     Private Function getWidthOfAttributedString(g As Graphics, s As String, attribute As FontAttribute) As Single

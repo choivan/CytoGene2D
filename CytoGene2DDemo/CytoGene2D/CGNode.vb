@@ -168,7 +168,7 @@
 
     Public Sub addChild(ByVal child As CGNode, ByVal z As Integer, ByVal tag As Integer)
         Debug.Assert(child IsNot Nothing, "child cannot be nil")
-        Debug.Assert(child.parent Is Nothing, "child already added. It cannot be added again.")
+        Debug.Assert(child.parent Is Nothing, child.ToString + ": child already added. It cannot be added again.")
         If children Is Nothing Then
             children = New ArrayList
         End If
@@ -354,22 +354,25 @@
             sortAllChildren()
 
             ' draw children with zOrder < 0
-            For Each child As CGNode In children
+            Dim i As Integer = 0
+            While i < children.Count
+                Dim child As CGNode = children(i)
                 If child.zOrder < 0 Then
                     child.visit()
                 Else
-                    Exit For
+                    Exit While
                 End If
-            Next
+                i += 1
+            End While
 
             draw() ' draw self
 
             ' draw children with zOrder >= 0
-            For Each child As CGNode In children
-                If child.zOrder >= 0 Then
-                    child.visit()
-                End If
-            Next
+            While i < children.Count
+                Dim child As CGNode = children(i)
+                child.visit()
+                i += 1
+            End While
         Else
             draw()
         End If

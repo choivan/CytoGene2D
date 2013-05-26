@@ -150,6 +150,9 @@ Public Class CGTextParser
         If rawString.Contains("\img") Then
             currentFontStyle_ = FontAttribute.FontAttributeImage
         End If
+        If rawString.Contains("\ss") Then
+            currentFontStyle_ = FontAttribute.FontAttributeSuperScript Or currentFontStyle_
+        End If
         ' attribute tag does not contain font style information. so do not change it
         If currentFontStyle_ = FontAttribute.FontAttributeNone Then
             currentFontStyle_ = fontStyleBackup

@@ -19,6 +19,13 @@
     Private originalFrame_ As RectangleF
     Private orderedListStartNumber_ As Integer
 
+    Public ReadOnly Property lastParagraphIndex As Integer
+        Get
+            Return pagesEndingIndices_(currentPage_)
+        End Get
+    End Property
+    Public locked As Boolean ' if a textView is lock, it will ignore all the show next or show last command
+
     Sub New(frame As RectangleF)
         setFrame(frame)
         textParser_ = New CGTextParser
@@ -28,6 +35,7 @@
         pagesStartingIndices_ = New List(Of Integer) : pagesStartingIndices_.Add(0)
         pagesEndingIndices_ = New List(Of Integer) : pagesEndingIndices_.Add(0)
         paragraphVerticalOffset_ = 0
+        locked = False
     End Sub
 
     Public Sub parseFile(fileName As String)
@@ -66,6 +74,7 @@
     End Function
 
     Public Sub showNextParagraph()
+        If locked Then Return
         Dim index As Integer = pagesEndingIndices_(currentPage_) + 1
         Dim size As SizeF = textRenderer.getSizeOfParagraphWithConstraintSize(CGDirector.sharedDirector.graphicsContext,
                                                                          textParser.attributedParagraphs(index), contentSize)

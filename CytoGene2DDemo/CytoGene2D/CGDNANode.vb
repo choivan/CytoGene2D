@@ -33,6 +33,8 @@
     Public nextNode As CGDNANode = Nothing
     Public lastNode As CGDNANode = Nothing
     Public linkNode As CGDNANode = Nothing ' a link node is the node that is located in the pairing strand
+    Public codon As String = ""
+    Private textFormat_ As StringFormat
 
     Sub New(ByVal radius As Single, ByVal color As Color, ByVal centerPoint As PointF)
         contentSize = New SizeF(radius * 2, radius * 2)
@@ -40,12 +42,16 @@
         nodeColor = color
         userInteractionEnabled = False
         center = centerPoint
+        textFormat_ = New StringFormat
+        textFormat_.Alignment = StringAlignment.Center
+        textFormat_.LineAlignment = StringAlignment.Center
     End Sub
 
     Public Overrides Sub draw()
         MyBase.draw()
         Dim context As Graphics = CGDirector.sharedDirector.graphicsContext
         context.FillEllipse(New SolidBrush(color_), boundingBox)
+        context.DrawString(codon, SystemFonts.DefaultFont, Brushes.Black, boundingBox, textFormat_)
         context = Nothing
     End Sub
 

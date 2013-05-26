@@ -3,6 +3,14 @@
     Public textFont As Font
     Public textFormat As StringFormat
 
+    Sub New()
+        text = ""
+        textFont = SystemFonts.DefaultFont
+        textFormat = New StringFormat
+        textFormat.Alignment = StringAlignment.Center
+        textFormat.LineAlignment = StringAlignment.Center
+    End Sub
+
     Sub New(ByVal text As String, ByVal frame As RectangleF)
         Me.text = text
         boundingBox = frame

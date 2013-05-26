@@ -90,6 +90,7 @@
         FontAttributeTitle2 = 1 << 16
         FontAttributeTitle3 = 1 << 17
         FontAttributeImage = 1 << 18
+        FontAttributeSuperScript = 1 << 19
     End Enum
 
     Structure AttributedString

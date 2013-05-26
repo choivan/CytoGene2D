@@ -341,6 +341,15 @@
         last.draw()
         context = Nothing
     End Sub
+
+    Public Overrides Function canSlower() As Boolean
+        Dim node As CGDNANode = first
+        While node IsNot Nothing
+            If Not node.canSlower Then Return False
+            node = node.nextNode
+        End While
+        Return True
+    End Function
 End Class
 
 'TODO
