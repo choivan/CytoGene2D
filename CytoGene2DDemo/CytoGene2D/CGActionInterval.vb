@@ -55,7 +55,7 @@ Public Class CGDelayTime : Inherits CGActionInterval
     End Sub
 
     Public Overrides Function reverse() As CGFiniteTimeAction
-        Return new CGDelayTime(duration)
+        Return New CGDelayTime(duration)
     End Function
 End Class
 

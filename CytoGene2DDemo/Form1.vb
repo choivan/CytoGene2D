@@ -9,7 +9,7 @@
         director.animationInterval = 0.02
         scene_ = New CGScene
         director.runScene(scene_)
-        'testDirectorAndActions()
+        testDirectorAndActions()
         'testDNAStrand()
         'testButtons()
         testSimpleGUI()
@@ -24,7 +24,7 @@
 
     Private Sub testSimpleGUI()
         Dim simpleGUI As New CGSimpleGUILayer()
-        Dim topHeight As Integer = 0 ' 260
+        Dim topHeight As Integer = 260
         Dim textView As New CGTextView(New RectangleF(0, topHeight, CGDirector.sharedDirector.canvasWidth, CGDirector.sharedDirector.canvasHeight - topHeight - simpleGUI.BottomBarHeight))
         Dim timeMachineLayer As New CGSprite(My.Resources.smile, New PointF(CGDirector.sharedDirector.canvasWidth / 2, CGDirector.sharedDirector.canvasHeight / 2))
         scene_.addChild(timeMachineLayer, kCGTopMostZOrder)
@@ -287,32 +287,32 @@
     End Sub
 
 
-    Private Sub deleteElementInArray()
-        Dim arr As New List(Of CGAction)
-        arr.Add(New CGAction)
-        arr.Add(New CGAction)
-        arr.Add(New CGAction)
-        Dim action As New CGAction
-        action.tag = 100
-        arr.Add(action)
-        arr.Add(New CGAction)
-        arr.Add(New CGAction)
-        Console.WriteLine("After add action, the number of actions is " + arr.Count.ToString)
-        For Each a As CGAction In arr
-            If a.tag = 100 Then
-                arr.Remove(a)
-                Exit For
-            End If
-        Next
+    'Private Sub deleteElementInArray()
+    '    Dim arr As New List(Of CGAction)
+    '    arr.Add(New CGAction)
+    '    arr.Add(New CGAction)
+    '    arr.Add(New CGAction)
+    '    Dim action As New CGAction
+    '    action.tag = 100
+    '    arr.Add(action)
+    '    arr.Add(New CGAction)
+    '    arr.Add(New CGAction)
+    '    Console.WriteLine("After add action, the number of actions is " + arr.Count.ToString)
+    '    For Each a As CGAction In arr
+    '        If a.tag = 100 Then
+    '            arr.Remove(a)
+    '            Exit For
+    '        End If
+    '    Next
 
-        For i As Integer = 0 To arr.Count - 1
-            If arr.Count > 0 Then
-                arr.RemoveAt(i)
-                Console.WriteLine(i.ToString)
-                i -= 1
-            End If
-        Next
-    End Sub
+    '    For i As Integer = 0 To arr.Count - 1
+    '        If arr.Count > 0 Then
+    '            arr.RemoveAt(i)
+    '            Console.WriteLine(i.ToString)
+    '            i -= 1
+    '        End If
+    '    Next
+    'End Sub
 
     Private Sub testDynamicBinding()
         Dim a As Object = New CGNode

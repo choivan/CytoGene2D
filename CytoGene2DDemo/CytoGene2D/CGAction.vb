@@ -1,5 +1,5 @@
 ﻿' ------> CGAction <------
-Public Class CGAction : Implements ICloneable
+Public MustInherit Class CGAction : Implements ICloneable
     Private target_ As Object
     Public ReadOnly Property target As Object
         Get
@@ -38,10 +38,7 @@ Public Class CGAction : Implements ICloneable
     End Function
 
     Public Overridable Function Clone() As Object Implements ICloneable.Clone
-        Dim copy As New CGAction
-        copy.tag = tag
-        copy.deletionMark = deletionMark
-        Return copy
+        Return Nothing
     End Function
 End Class
 

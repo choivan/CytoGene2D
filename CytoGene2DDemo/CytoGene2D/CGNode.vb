@@ -31,8 +31,8 @@
             Return contentSize_
         End Get
         Set(ByVal value As SizeF)
-            originalContentSize_ = contentSize_
             contentSize_ = value
+            originalContentSize_ = contentSize_
             ' keep location the same
             ' location = location_
             ' keep center the same 
