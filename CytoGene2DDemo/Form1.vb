@@ -9,7 +9,7 @@
         director.animationInterval = 0.02
         scene_ = New CGScene
         director.runScene(scene_)
-        testDirectorAndActions()
+        'testDirectorAndActions()
         'testDNAStrand()
         'testButtons()
         testSimpleGUI()
@@ -24,7 +24,8 @@
 
     Private Sub testSimpleGUI()
         Dim simpleGUI As New CGSimpleGUILayer()
-        Dim textView As New CGTextView(New RectangleF(0, 260, CGDirector.sharedDirector.canvasWidth, CGDirector.sharedDirector.canvasHeight - 260 - simpleGUI.BottomBarHeight))
+        Dim topHeight As Integer = 0 ' 260
+        Dim textView As New CGTextView(New RectangleF(0, topHeight, CGDirector.sharedDirector.canvasWidth, CGDirector.sharedDirector.canvasHeight - topHeight - simpleGUI.BottomBarHeight))
         Dim timeMachineLayer As New CGSprite(My.Resources.smile, New PointF(CGDirector.sharedDirector.canvasWidth / 2, CGDirector.sharedDirector.canvasHeight / 2))
         scene_.addChild(timeMachineLayer, kCGTopMostZOrder)
         timeMachineLayer.visible = False

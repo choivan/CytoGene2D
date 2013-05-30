@@ -67,3 +67,6 @@ In addition to standard preparations <:\cb>FISH <:\ck>can also be performed on:
 *uncultured amniocytes
 *cytospin preparations
 ```
+
+An example,
+![image](textview.PNG)
