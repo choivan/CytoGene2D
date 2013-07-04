@@ -1,4 +1,4 @@
-﻿Public Class CGButtonBase : Inherits CGNode
+﻿Public MustInherit Class CGButtonBase : Inherits CGNode
     Private status_ As CGConstant.ButtonStatus
     Public ReadOnly Property status As CGConstant.ButtonStatus
         Get

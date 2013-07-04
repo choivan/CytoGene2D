@@ -1,4 +1,4 @@
-﻿Public Class CGInteraction
+﻿Public MustInherit Class CGInteraction
     Delegate Sub InteractionHandler(sender As Object, info As Object)
     Public completionHandler As InteractionHandler = Nothing ' when the interaction is done, the completion handler is called to inform
 

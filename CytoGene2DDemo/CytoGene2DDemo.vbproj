@@ -77,6 +77,7 @@
     <Compile Include="CytoGene2D\CGDNADoubleStrand.vb" />
     <Compile Include="CytoGene2D\CGDNANode.vb" />
     <Compile Include="CytoGene2D\CGDNASingleStrand.vb" />
+    <Compile Include="CytoGene2D\CGHelper.vb" />
     <Compile Include="CytoGene2D\CGIndicator.vb" />
     <Compile Include="CytoGene2D\CGInteraction.vb" />
     <Compile Include="CytoGene2D\CGInteractionManager.vb" />
@@ -87,7 +88,7 @@
     <Compile Include="CytoGene2D\CGSimpleGUILayer.vb" />
     <Compile Include="CytoGene2D\CGSprite.vb" />
     <Compile Include="CytoGene2D\CGTextParser.vb" />
-    <Compile Include="CytoGene2D\CGTextRender.vb" />
+    <Compile Include="CytoGene2D\CGTextRenderer.vb" />
     <Compile Include="CytoGene2D\CGTextView.vb" />
     <Compile Include="CytoGene2D\CGTimeMachine.vb" />
     <Compile Include="Form1.vb">
@@ -194,6 +195,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CytoGene2D\Resources\simple_mini_selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\simple_print_disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\simple_print_highlighted.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\simple_print_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\simple_print_selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\simple_play_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\simple_play_off_selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\simple_play_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\simple_play_on_selected.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

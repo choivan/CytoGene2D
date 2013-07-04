@@ -1,6 +1,6 @@
 ﻿Public Class CGTextView : Inherits CGNode
-    Private textRenderer_ As CGTextRender
-    Public ReadOnly Property textRenderer As CGTextRender
+    Private textRenderer_ As CGTextRenderer
+    Public ReadOnly Property textRenderer As CGTextRenderer
         Get
             Return textRenderer_
         End Get
@@ -29,7 +29,7 @@
     Sub New(frame As RectangleF)
         setFrame(frame)
         textParser_ = New CGTextParser
-        textRenderer_ = New CGTextRender
+        textRenderer_ = New CGTextRenderer
         setBasicFont(kCGDefaultFontName, kCGDefaultFontSize)
         currentPage_ = 0
         pagesStartingIndices_ = New List(Of Integer) : pagesStartingIndices_.Add(0)
@@ -39,7 +39,7 @@
     End Sub
 
     Public Sub parseFile(fileName As String)
-        textParser.processFile(fileName)
+        textParser.parseFile(fileName)
         paragraphVerticalOffset_ = textRenderer.getSizeOfParagraphWithConstraintSize(CGDirector.sharedDirector.graphicsContext,
                                                                                      textParser.attributedParagraphs(0), contentSize).Height
     End Sub

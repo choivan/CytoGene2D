@@ -191,10 +191,12 @@
 
         canvasContext_.DrawImage(canvasBuffer_, New Point(0, 0))
 
-        If currentScene_.canSlower Then
-            switchToLongInterval()
-        Else
-            switchToNormalInterval()
+        If isAnimating Then
+            If currentScene_.canSlower Then
+                switchToLongInterval()
+            Else
+                switchToNormalInterval()
+            End If
         End If
         'Console.WriteLine("timer interval: " + timer_.Interval.ToString)
     End Sub

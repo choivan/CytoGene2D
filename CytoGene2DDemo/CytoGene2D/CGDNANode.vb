@@ -47,6 +47,10 @@
         textFormat_.LineAlignment = StringAlignment.Center
     End Sub
 
+    Public Overrides Function canSlower() As Boolean
+        Return MyBase.canSlower()
+    End Function
+
     Public Overrides Sub draw()
         MyBase.draw()
         Dim context As Graphics = CGDirector.sharedDirector.graphicsContext

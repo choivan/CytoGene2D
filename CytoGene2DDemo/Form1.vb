@@ -9,8 +9,8 @@
         director.animationInterval = 0.02
         scene_ = New CGScene
         director.runScene(scene_)
-        testDirectorAndActions()
-        'testDNAStrand()
+        'testDirectorAndActions()
+        testDNAStrand()
         'testButtons()
         testSimpleGUI()
     End Sub
@@ -24,12 +24,12 @@
 
     Private Sub testSimpleGUI()
         Dim simpleGUI As New CGSimpleGUILayer()
-        Dim topHeight As Integer = 260
+        Dim topHeight As Integer = 0
         Dim textView As New CGTextView(New RectangleF(0, topHeight, CGDirector.sharedDirector.canvasWidth, CGDirector.sharedDirector.canvasHeight - topHeight - simpleGUI.BottomBarHeight))
         Dim timeMachineLayer As New CGSprite(My.Resources.smile, New PointF(CGDirector.sharedDirector.canvasWidth / 2, CGDirector.sharedDirector.canvasHeight / 2))
         scene_.addChild(timeMachineLayer, kCGTopMostZOrder)
         timeMachineLayer.visible = False
-        textView.parseFile("test.txt")
+        textView.parseFile("test1.txt")
         scene_.addChild(textView)
         scene_.addChild(simpleGUI, kCGTopMostZOrder)
         simpleGUI.setClickHandlerOfButton(simpleGUI.rightButton, Sub(sender As Object, e As MouseEventArgs, info As Object)
@@ -110,8 +110,8 @@
                                                                                   singleStrand.moveEntireStrandByDistance(80, New PointF(50, 100))
                                                                               End Sub)
         Dim seq As New CGSequence(spawn, callback2)
-        singleStrand.runAction(seq)
-        'singleStrand.moveEntireStrandByDistance(80, New PointF(50, 200))
+        'singleStrand.runAction(seq)
+        singleStrand.moveEntireStrandByDistance(80, New PointF(50, 200))
 
         Dim circleStrand As New CGDNASingleStrandCircular(New PointF(700, 400), 50, 5, Color.Orange, 15, 8)
         scene_.addChild(circleStrand)
@@ -227,6 +227,14 @@
     End Sub
 
     Private Sub testSchedule()
+        ' create an action object called ‘move’
+        Dim move As New CGMoveTo(20, New PointF(100, 100))
+        ' create a CGNode object
+        Dim node As New CGNode
+        ' run the ‘move’ action on ‘node’.
+        ' After 20 updates, the node will be moved to point {100, 100}
+        node.runAction(move)
+
         Dim scheduler As New CGScheduler
         For i As Integer = 1 To 5
             scheduler.scheduleUpdate(New Object, 0, False)

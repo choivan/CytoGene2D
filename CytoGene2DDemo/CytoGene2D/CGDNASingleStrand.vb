@@ -78,6 +78,8 @@
         End Set
     End Property
 
+    Public selfLinked As Boolean
+
     Sub New(ByVal startNodeCenter As PointF, ByVal nodeRadius As Single, ByVal nodeColor As Color,
             ByVal size As Integer, ByVal gap As Single,
             Optional ByVal appendMode As NodeAppendMode = NodeAppendMode.HorizontalLeftRight)
@@ -87,6 +89,7 @@
         defaultNodeRadius_ = nodeRadius
         defaultPen_ = New Pen(defaultColor_, defaultNodeRadius_ * 2)
         defaultGap_ = gap
+        selfLinked = False
         Dim startingNode As New CGDNANode(nodeRadius, nodeColor, startNodeCenter)
         If count_ = 0 Then
             first_ = startingNode
@@ -334,6 +337,11 @@
                 If node.nodeColor.ToArgb <> Color.Transparent.ToArgb Then
                     context.DrawLine(Pens.Black,
                                  node.center, node.nextNode.center)
+                    If selfLinked AndAlso
+                        node.linkNode IsNot Nothing AndAlso
+                        node.linkNode.nodeColor.ToArgb <> Color.Transparent.ToArgb Then
+                        context.DrawLine(Pens.Black, node.center, node.linkNode.center)
+                    End If
                 End If
             End If
             node = node.nextNode
@@ -344,10 +352,10 @@
 
     Public Overrides Function canSlower() As Boolean
         Dim node As CGDNANode = first
-        While node IsNot Nothing
+        Do
             If Not node.canSlower Then Return False
             node = node.nextNode
-        End While
+        Loop While node IsNot Nothing AndAlso node IsNot first
         Return True
     End Function
 End Class
@@ -376,5 +384,7 @@ Public Class CGDNASingleStrandCircular : Inherits CGDNASingleStrand
         Next
         defaultGap = Math.Sqrt(Math.Pow(first.center.X - first.nextNode.center.X, 2) + Math.Pow(first.center.Y - first.nextNode.center.Y, 2)) - defaultNodeRadius * 2
         last.center = first.center
+        first.lastNode = last
+        last.nextNode = first
     End Sub
 End Class

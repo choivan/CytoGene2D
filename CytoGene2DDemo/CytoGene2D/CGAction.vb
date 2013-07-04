@@ -13,7 +13,7 @@ Public MustInherit Class CGAction : Implements ICloneable
         target_ = target
     End Sub
 
-    ' call every frame
+    ' called every frame
     Public Overridable Sub takeStep()
         ' override me!
     End Sub
