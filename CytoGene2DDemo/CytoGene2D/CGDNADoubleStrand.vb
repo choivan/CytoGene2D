@@ -30,6 +30,7 @@
         Dim context As Graphics = CGDirector.sharedDirector.graphicsContext
         Dim node As CGDNANode = strand1_.first
         For i As Integer = 0 To strand1_.count - 1
+            If node Is Nothing Then Exit For
             If node.linkNode IsNot Nothing AndAlso
                 node.nodeColor.ToArgb <> Color.Transparent.ToArgb AndAlso
                 node.linkNode.nodeColor.ToArgb <> Color.Transparent.ToArgb Then
@@ -44,6 +45,11 @@
     Public Overrides Function canSlower() As Boolean
         Return strand1_.canSlower And strand2_.canSlower
     End Function
+
+    Public Sub moveEntireStrandBy(ByVal duration As Integer, ByVal distance As PointF)
+        strand1_.moveEntireStrandByDistance(duration, distance)
+        strand2_.moveEntireStrandByDistance(duration, distance)
+    End Sub
 
 #Region "Link & unlink operations"
     Private Sub linkTwoStrands(ByVal strand1 As CGDNASingleStrand, ByVal strand2 As CGDNASingleStrand)
@@ -67,7 +73,7 @@
     Public Sub linkNodes(ByVal start As Integer, ByVal length As Integer)
         Dim node1 As CGDNANode = strand1_.getDNANodeAtIndex(start)
         Dim node2 As CGDNANode = strand2_.getDNANodeAtIndex(start)
-        While node1.nextNode IsNot Nothing AndAlso node2.nextNode IsNot Nothing AndAlso length > 0
+        While node1 IsNot Nothing AndAlso node2 IsNot Nothing AndAlso length > 0
             linkTwoNodes(node1, node2)
             node1 = node1.nextNode
             node2 = node2.nextNode
