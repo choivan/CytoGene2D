@@ -1,5 +1,5 @@
 ﻿' ------> CGAction <------
-Public MustInherit Class CGAction : Implements ICloneable
+Public Class CGAction : Implements ICloneable
     Private target_ As Object
     Public ReadOnly Property target As Object
         Get
@@ -13,7 +13,7 @@ Public MustInherit Class CGAction : Implements ICloneable
         target_ = target
     End Sub
 
-    ' called every frame
+    ' call every frame
     Public Overridable Sub takeStep()
         ' override me!
     End Sub
@@ -38,7 +38,10 @@ Public MustInherit Class CGAction : Implements ICloneable
     End Function
 
     Public Overridable Function Clone() As Object Implements ICloneable.Clone
-        Return Nothing
+        Dim copy As New CGAction
+        copy.tag = tag
+        copy.deletionMark = deletionMark
+        Return copy
     End Function
 End Class
 

@@ -1,4 +1,4 @@
-﻿Public MustInherit Class CGButtonBase : Inherits CGNode
+﻿Public Class CGButtonBase : Inherits CGNode
     Private status_ As CGConstant.ButtonStatus
     Public ReadOnly Property status As CGConstant.ButtonStatus
         Get
@@ -371,4 +371,6 @@ Public Class CGButtonToggleSprite : Inherits CGButtonToggle
             End If
         End If
     End Sub
+End Class
+
 End Class

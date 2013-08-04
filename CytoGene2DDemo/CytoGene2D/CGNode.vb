@@ -26,13 +26,21 @@
             location_ = New PointF(center_.X - contentSize_.Width / 2, center_.Y - contentSize_.Height / 2)
         End Set
     End Property
+    Public Property originalContentSize As SizeF
+        Get
+            Return originalContentSize_
+        End Get
+        Set(value As SizeF)
+            originalContentSize_ = value
+        End Set
+    End Property
     Public Property contentSize As SizeF
         Get
             Return contentSize_
         End Get
         Set(ByVal value As SizeF)
+            'originalContentSize_ = contentSize_
             contentSize_ = value
-            originalContentSize_ = contentSize_
             ' keep location the same
             ' location = location_
             ' keep center the same 
@@ -152,6 +160,7 @@
             For Each child As CGNode In children
                 child.cleanup()
             Next
+            children.Clear()
         End If
     End Sub
 
@@ -247,11 +256,11 @@
     End Sub
 
     Private Sub detachChild(ByVal child As CGNode, ByVal cleanup As Boolean)
+        child.parent = Nothing
+        children.Remove(child)
         If cleanup Then
             child.cleanup()
         End If
-        child.parent = Nothing
-        children.Remove(child)
     End Sub
 
     Public Function getChildByTag(ByVal tag As Integer) As CGNode

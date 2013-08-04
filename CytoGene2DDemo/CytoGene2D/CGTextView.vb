@@ -1,6 +1,6 @@
 ﻿Public Class CGTextView : Inherits CGNode
-    Private textRenderer_ As CGTextRenderer
-    Public ReadOnly Property textRenderer As CGTextRenderer
+    Private textRenderer_ As CGTextRender
+    Public ReadOnly Property textRenderer As CGTextRender
         Get
             Return textRenderer_
         End Get
@@ -29,7 +29,7 @@
     Sub New(frame As RectangleF)
         setFrame(frame)
         textParser_ = New CGTextParser
-        textRenderer_ = New CGTextRenderer
+        textRenderer_ = New CGTextRender
         setBasicFont(kCGDefaultFontName, kCGDefaultFontSize)
         currentPage_ = 0
         pagesStartingIndices_ = New List(Of Integer) : pagesStartingIndices_.Add(0)
@@ -39,7 +39,7 @@
     End Sub
 
     Public Sub parseFile(fileName As String)
-        textParser.parseFile(fileName)
+        textParser.processFile(fileName)
         paragraphVerticalOffset_ = textRenderer.getSizeOfParagraphWithConstraintSize(CGDirector.sharedDirector.graphicsContext,
                                                                                      textParser.attributedParagraphs(0), contentSize).Height
     End Sub
@@ -47,6 +47,18 @@
     Public Sub setFrame(frame As RectangleF)
         originalFrame_ = frame
         setPageMargin(New Margin(10, 10, 10, 10))
+        If paragraphVerticalOffset_ > boundingBox.Height Then
+            refreshLayoutAfterAdjustFrame()
+        End If
+    End Sub
+
+    Public Sub setFrameAnimated(frame As RectangleF, dura As Integer)
+        Dim delta As New PointF(frame.X - originalFrame_.X, frame.Y - originalFrame_.Y)
+        Me.runAction(New CGSequence(New CGMoveBy(dura, delta),
+                                    New CGActionInstant(
+                                        Sub()
+                                            setFrame(frame)
+                                        End Sub)))
     End Sub
 
     Public Sub setBasicFont(fontName As String, fontSize As Single)
@@ -72,6 +84,17 @@
         Dim index As Integer = pagesEndingIndices_(currentPage_) - 1
         Return index >= 0
     End Function
+
+    Private Sub refreshLayoutAfterAdjustFrame()
+        Dim index As Integer = pagesEndingIndices_(currentPage_)
+        Dim size As SizeF = textRenderer.getSizeOfParagraphWithConstraintSize(CGDirector.sharedDirector.graphicsContext,
+                                                                         textParser.attributedParagraphs(index), contentSize)
+        orderedListStartNumber_ = textRenderer.orderedListNumber
+        paragraphVerticalOffset_ = size.Height
+        currentPage_ += 1
+        pagesStartingIndices_.Add(index)
+        pagesEndingIndices_.Add(index)
+    End Sub
 
     Public Sub showNextParagraph()
         If locked Then Return

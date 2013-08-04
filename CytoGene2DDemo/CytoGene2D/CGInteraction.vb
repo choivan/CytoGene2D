@@ -1,4 +1,4 @@
-﻿Public MustInherit Class CGInteraction
+﻿Public Class CGInteraction
     Delegate Sub InteractionHandler(sender As Object, info As Object)
     Public completionHandler As InteractionHandler = Nothing ' when the interaction is done, the completion handler is called to inform
 
@@ -254,6 +254,17 @@ Public Class CGInteractionButtonToggle : Inherits CGInteraction
             If target.status <> ButtonStatus.ButtonHighlighted Then target.setNormal()
         ElseIf m = MouseEvent.MouseDown Then
             target.setSelected()
+        End If
+    End Sub
+End Class
+
+Public Class CGInteractionClick : Inherits CGInteraction
+    Public Overrides Sub update(sender As Object, e As MouseEventArgs, m As MouseEvent)
+        MyBase.update(sender, e, m)
+        If status = InteractionStatus.MouseIdle And swallowMouseEvent Then
+            If completionHandler IsNot Nothing Then
+                completionHandler.Invoke(Me, Nothing)
+            End If
         End If
     End Sub
 End Class

@@ -19,7 +19,7 @@ Public Class CGTextParser
 
     End Sub
 
-    Public Sub parseFile(fileName As String)
+    Public Sub processFile(fileName As String)
         If File.Exists(fileName) Then
             Dim reader As New StreamReader(fileName)
             Do While Not reader.EndOfStream
@@ -30,13 +30,13 @@ Public Class CGTextParser
             Loop
             reader.Close()
 
-            parseText()
+            processText()
         Else
             Console.WriteLine("File: <" + fileName + "> not exist.")
         End If
     End Sub
 
-    Private Sub parseText()
+    Private Sub processText()
         If rawParagraphs_.Count = 0 Then
             Return
         End If

@@ -2,24 +2,33 @@
 
 #Region "Nodes Properties"
     Private count_ As Integer = 0
-    Public ReadOnly Property count As Integer
+    Public Property count As Integer
         Get
             Return count_
         End Get
+        Set(value As Integer)
+            count_ = value
+        End Set
     End Property
 
     Private first_ As CGDNANode = Nothing
-    Public ReadOnly Property first As CGDNANode
+    Public Property first As CGDNANode
         Get
             Return first_
         End Get
+        Set(value As CGDNANode)
+            first_ = value
+        End Set
     End Property
 
     Private last_ As CGDNANode = Nothing
-    Public ReadOnly Property last As CGDNANode
+    Public Property last As CGDNANode
         Get
             Return last_
         End Get
+        Set(value As CGDNANode)
+            last_ = value
+        End Set
     End Property
 #End Region
 
@@ -325,16 +334,34 @@
         End While
     End Sub
 
+    Public Sub reverseStrand()
+        Dim n As CGDNANode = first_
+        Dim tempN As CGDNANode
+        While n IsNot Nothing
+            tempN = n.nextNode
+            If tempN Is Nothing Or n.lastNode Is Nothing Then
+                Dim k As CGNode = Nothing
+            End If
+            n.nextNode = n.lastNode
+            n.lastNode = tempN
+            n = tempN
+        End While
+        tempN = first_
+        first_ = last_
+        last_ = tempN
+    End Sub
+
     Public Overrides Sub draw()
         MyBase.draw()
         Dim context As Graphics = CGDirector.sharedDirector.graphicsContext
         Dim node As CGDNANode = first
         For i As Integer = 0 To count - 2
+            If node.nextNode Is Nothing Then Exit For
             node.draw()
             If node.nextNode.nodeColor.ToArgb <> Color.Transparent.ToArgb Then
                 context.DrawLine(New Pen(node.nodeColor, defaultNodeRadius_ * 2),
                                  node.center, node.nextNode.center)
-                If node.nodeColor.ToArgb <> Color.Transparent.ToArgb Then
+                If node.nodeColor.ToArgb <> Color.Transparent.ToArgb AndAlso node.codon = "" Then
                     context.DrawLine(Pens.Black,
                                  node.center, node.nextNode.center)
                     If selfLinked AndAlso
@@ -347,6 +374,14 @@
             node = node.nextNode
         Next
         last.draw()
+        node = first
+        For i As Integer = 0 To count - 1
+            If node Is Nothing Then Exit For
+            If node.codon <> "" Then
+                node.drawCodon()
+            End If
+            node = node.nextNode
+        Next
         context = Nothing
     End Sub
 

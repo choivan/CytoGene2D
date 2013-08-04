@@ -38,6 +38,7 @@ Public Class CGSprite : Inherits CGNode
 
     Sub New(ByVal texture As Bitmap)
         texture_ = texture
+        originalContentSize = texture.Size
         boundingBox = New RectangleF(PointF.Empty, texture.Size)
         opacity = Byte.MaxValue
         userInteractionEnabled = False
@@ -45,6 +46,7 @@ Public Class CGSprite : Inherits CGNode
 
     Sub New(ByVal texture As Bitmap, ByVal rect As RectangleF)
         texture_ = texture
+        originalContentSize = texture.Size
         boundingBox = rect
         opacity = Byte.MaxValue
         userInteractionEnabled = False
@@ -52,6 +54,7 @@ Public Class CGSprite : Inherits CGNode
 
     Sub New(ByVal texture As Bitmap, ByVal centerPoint As PointF)
         texture_ = texture
+        originalContentSize = texture.Size
         contentSize = texture_.Size
         center = centerPoint
         opacity = Byte.MaxValue

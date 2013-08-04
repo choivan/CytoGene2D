@@ -25,7 +25,7 @@
 'End Sub
 
 Public Class CGActionInstant : Inherits CGFiniteTimeAction
-    Delegate Sub instantActionDelegate()
+    Public Delegate Sub instantActionDelegate()
     Private instantAction_ As instantActionDelegate
     Public WriteOnly Property instantAction As instantActionDelegate
         Set(ByVal value As instantActionDelegate)

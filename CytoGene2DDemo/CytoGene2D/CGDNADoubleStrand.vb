@@ -96,7 +96,7 @@
     Public Sub unlinkNodes(ByVal start As Integer, ByVal length As Integer)
         Dim node1 As CGDNANode = strand1_.getDNANodeAtIndex(start)
         Dim node2 As CGDNANode = strand2_.getDNANodeAtIndex(start)
-        While node1.nextNode IsNot Nothing AndAlso node2.nextNode IsNot Nothing AndAlso length > 0
+        While node1 IsNot Nothing AndAlso node2 IsNot Nothing AndAlso length > 0
             unlinkTwoNodes(node1, node2)
             node1 = node1.nextNode
             node2 = node2.nextNode
@@ -112,5 +112,7 @@ End Class
 'End Class
 
 'Public Class CGDNADoubleStrandSpiral : Inherits CGDNADoubleStrand
+
+'End Classrand
 
 'End Class

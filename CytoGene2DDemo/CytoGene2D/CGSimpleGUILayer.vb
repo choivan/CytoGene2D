@@ -92,7 +92,19 @@ Public Class CGSimpleGUILayer : Inherits CGNode
 
     Public Sub highlightButtonDelayed(button As CGButtonSprite, delayTime As Integer)
         Me.runAction(CGSequence.actionWithArray({New CGDelayTime(delayTime),
-                                                 New CGActionInstant(Sub() button.setHighlighted())}))
+                                                 New CGActionInstant(
+                                                     Sub()
+                                                         button.setHighlighted()
+                                                     End Sub)}))
+    End Sub
+
+    Public Sub highlightButtonDelayedForcedly(button As CGButtonSprite, delayTime As Integer)
+        Me.runAction(CGSequence.actionWithArray({New CGDelayTime(delayTime),
+                                                 New CGActionInstant(
+                                                     Sub()
+                                                         button.setEnabled()
+                                                         button.setHighlighted()
+                                                     End Sub)}))
     End Sub
 
     Public Overrides Sub draw()

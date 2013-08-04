@@ -43,19 +43,21 @@
         userInteractionEnabled = False
         center = centerPoint
         textFormat_ = New StringFormat
-        textFormat_.Alignment = StringAlignment.Center
+        textFormat_.Alignment = StringAlignment.Near
         textFormat_.LineAlignment = StringAlignment.Center
     End Sub
-
-    Public Overrides Function canSlower() As Boolean
-        Return MyBase.canSlower()
-    End Function
 
     Public Overrides Sub draw()
         MyBase.draw()
         Dim context As Graphics = CGDirector.sharedDirector.graphicsContext
         context.FillEllipse(New SolidBrush(color_), boundingBox)
-        context.DrawString(codon, SystemFonts.DefaultFont, Brushes.Black, boundingBox, textFormat_)
+        'context.DrawString(codon, SystemFonts.DefaultFont, Brushes.Black, boundingBox, textFormat_)
+        context = Nothing
+    End Sub
+
+    Public Sub drawCodon()
+        Dim context As Graphics = CGDirector.sharedDirector.graphicsContext
+        context.DrawString(codon, New Font(kCGFontNameTahoma, kCGFontSizeSmall - 5, FontStyle.Bold), Brushes.Black, boundingBox, textFormat_)
         context = Nothing
     End Sub
 
