@@ -2,7 +2,7 @@ Public Interface IObserver
 	' sender object helps to determine if it is the right one you want to listen. It is useful when receiver listen to multiple broadcasters
 	' notification object helps to determine the right notification to handle. It is useful when receiver register multiple notifications
 	' info is the message that broadcaster want to broadcast. Leave it to Nothing if have no message to pass
-	Public Sub didObserveNotification(Object sender, String notificationName, Object info)
+	Sub didObserveNotification(ByVal sender As Object, ByVal notificationName As String, ByVal info As Object)
 End Interface
 
 ' NotificationCenter is designed for communication purpose among different objects
@@ -10,7 +10,7 @@ End Interface
 ' Observers register to the notification center to indicate which notification they want to listen
 ' Messages may be broadcasted to receivers.
 Public Class CGNotificationCenter
-	Private Shared sharedInstance_ As CGNotificationCenter
+	Private Shared defaultCenter_ As CGNotificationCenter
 	Private Shared lock_ As New Object
 
 	Private notifications As Hashtable
@@ -20,7 +20,7 @@ Public Class CGNotificationCenter
 		Private observers As ArrayList
 
 		Sub New(ByVal name As String) 
-			this.name = name
+			Me.name = name
 			observers = New ArrayList
 		End Sub
 
@@ -46,11 +46,11 @@ Public Class CGNotificationCenter
 
 		Public Function containObserver(ByVal observer As IObserver) As Boolean
 			Return observers.Contains(observer)
-		End Sub
+		End Function
 
 		Public Function isEmpty() As Boolean 'no one is listening'
 			Return observers.Count == 0
-		End Sub
+		End Function
 	End Class
 
 	' VBisshitdesignedlanguage '
@@ -71,17 +71,19 @@ Public Class CGNotificationCenter
 '	    End Function 
 '	End Class
 
-	Public Shared Function sharedNotificationCenter() As CGNotificationCenter
-		If sharedInstance_ Is Nothing Then
+	' default notification center is shared.
+	' but you can instantiate new instances of notification center. This is NOT a singleton
+	Public Shared Function defaultNotificationCenter() As CGNotificationCenter
+		If defaultCenter_ Is Nothing Then
 			SyncLock lock_
-				If sharedInstance_ Is Nothing Then
-					sharedInstance_ = New CGNotificationCenter
+				If defaultCenter_ Is Nothing Then
+					defaultCenter_ = New CGNotificationCenter
 				End If
 			End SyncLock
 		End If
 	End Function
 
-	Protected Sub New()
+	Public Sub New()
 		notifications = New Hashtable
 	End Sub
 
@@ -120,6 +122,8 @@ Public Class CGNotificationCenter
 	Public Sub postNotification(ByVal sender As Object, ByVal notificationName As String, ByVal info As Object)
 		Dim n As Notification = notifications.Item(notificationName)
 		Dim observers As ArrayList = n.getObservers()
-		'todo'
+		For Each ob As IObserver in observers
+			ob.didObserveNotification(sender, notificationName, info)
+		Next
 	End Sub
 End Class

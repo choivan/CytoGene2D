@@ -3,16 +3,16 @@
 
     Private Sub Form1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Console.WriteLine("start testing")
-        Dim director As CGDirector = CGDirector.sharedDirector
-        director.canvas = PictureBox1
-        director.mainWindow = Me
-        director.animationInterval = 0.02
-        scene_ = New CGScene
-        director.runScene(scene_)
-        'testDirectorAndActions()
-        testDNAStrand()
+        'Dim director As CGDirector = CGDirector.sharedDirector
+        'director.canvas = PictureBox1
+        'director.mainWindow = Me
+        'director.animationInterval = 0.02
+        'scene_ = New CGScene
+        'director.runScene(scene_)
+        ''testDirectorAndActions()
+        'testDNAStrand()
         'testButtons()
-        testSimpleGUI()
+        'testSimpleGUI()
     End Sub
 
     'Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
