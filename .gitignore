@@ -85,6 +85,7 @@ publish
 sql
 TestResults
 [Tt]est[Rr]esult*
+.DS_Store
 *.Cache
 ClientBin
 [Ss]tyle[Cc]op.*
