@@ -1,7 +1,12 @@
 CytoGene2D
 ==========
-A 2D graphics engine based on GDI+ drawing. 
-Inspired by cocos2D.
+CytoGene2D is a 2D graphics engine, originally designed for easily building applications about learning cytogenetics. Inspired by Cocos2d.
+
+#Naming
+1. All classes has a prefix, "CG", which stands for Cytogenetics.
+2. Method name starts with a low case letter. Refer to Java's naming guide.
+	* Setters should be, for example, `setFoo(foo As Object)`
+	* Getters should be without the 'get', for example, `foo() As Object`
 
 ##CGTextView Grammar
 ">": First level heading
