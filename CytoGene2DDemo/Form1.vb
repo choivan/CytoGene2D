@@ -3,16 +3,18 @@
 
     Private Sub Form1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Console.WriteLine("start testing")
-        'Dim director As CGDirector = CGDirector.sharedDirector
-        'director.canvas = PictureBox1
-        'director.mainWindow = Me
-        'director.animationInterval = 0.02
-        'scene_ = New CGScene
-        'director.runScene(scene_)
+        Dim director As CGDirector = CGDirector.sharedDirector
+        director.canvas = PictureBox1
+        director.mainWindow = Me
+        director.animationInterval = 0.02
+        scene_ = New CGScene
+        director.runScene(scene_)
         ''testDirectorAndActions()
         'testDNAStrand()
         'testButtons()
         'testSimpleGUI()
+        testNotificationCenter()
+
     End Sub
 
     'Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
@@ -21,6 +23,45 @@
     '    Me.Height = Screen.PrimaryScreen.Bounds.Height
     '    Me.CenterToScreen()
     'End Sub
+
+
+    ''' <summary>
+    ''' NotificationCenter Example
+    ''' </summary>
+    ''' <remarks>Observers should confirm to IObserver interface</remarks>
+    Private Class NotificationObserver
+        Implements IObserver
+
+        Public Sub didObserveNotification(sender As Object, notificationName As String, info As Object) Implements IObserver.didObserveNotification
+            ' all three lables displayed in the same position. so you see only one
+            Dim l As New CGLabel("<" + Me.ToString + "> observes notification '" + notificationName + "' from <" + sender.ToString + ">", _
+                                 CGDirector.sharedDirector.canvasBounds, _
+                                 New Font(kCGFontNameTahoma, kCGFontSizeSmall))
+            CGDirector.sharedDirector.currentScene.addChild(l)
+            ' but console will actually print 3 times
+            Console.WriteLine("<" + Me.ToString + "> observes notification '" + notificationName + "' from <" + sender.ToString + ">")
+        End Sub
+    End Class
+
+    ' This is a most simple example of the notification center.
+    ' With notification center, a broadcaster can easily set up relationship with multi-observers, even without tightly coupled.
+    Private Sub testNotificationCenter()
+        Dim observer1 As New NotificationObserver
+        Dim observer2 As New NotificationObserver
+        Dim observer3 As New NotificationObserver
+        Dim nc As CGNotificationCenter = CGNotificationCenter.defaultNotificationCenter
+        nc.registerObserverForNotification(observer1, "Notification_ID")
+        nc.registerObserverForNotification(observer2, "Notification_ID")
+        nc.registerObserverForNotification(observer3, "Notification_ID")
+        nc.postNotification(Me, "Notification_ID", Nothing)
+        nc.unregisterObserverForAllNotification(observer1)
+        nc.unregisterObserverForAllNotification(observer2)
+        nc.unregisterObserverForAllNotification(observer3)
+
+        Console.WriteLine("after remove observers... and post notification again")
+        nc.postNotification(Me, "Notification_ID", Nothing)
+        Console.WriteLine("no observer will get the notification")
+    End Sub
 
     Private Sub testSimpleGUI()
         Dim simpleGUI As New CGSimpleGUILayer()

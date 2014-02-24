@@ -28,9 +28,9 @@ Public Class CGNotificationCenter
 			Return name
 		End Function
 
-		Public Function getObservers() As ArrayList
-			Return observers
-		End Function
+        Public Function getObservers() As ArrayList
+            Return observers
+        End Function
 
 		Public Sub addObserver(ByVal observer As IObserver)
 			observers.Add(observer)
@@ -49,7 +49,7 @@ Public Class CGNotificationCenter
 		End Function
 
 		Public Function isEmpty() As Boolean 'no one is listening'
-			Return observers.Count == 0
+            Return observers.Count = 0
 		End Function
 	End Class
 
@@ -80,7 +80,8 @@ Public Class CGNotificationCenter
 					defaultCenter_ = New CGNotificationCenter
 				End If
 			End SyncLock
-		End If
+        End If
+        Return defaultCenter_
 	End Function
 
 	Public Sub New()
@@ -120,10 +121,15 @@ Public Class CGNotificationCenter
 	End Sub
 
 	Public Sub postNotification(ByVal sender As Object, ByVal notificationName As String, ByVal info As Object)
-		Dim n As Notification = notifications.Item(notificationName)
-		Dim observers As ArrayList = n.getObservers()
-		For Each ob As IObserver in observers
-			ob.didObserveNotification(sender, notificationName, info)
-		Next
+        Dim n As Notification = notifications.Item(notificationName)
+        Dim observers As ArrayList = Nothing
+        If n IsNot Nothing Then
+            observers = n.getObservers
+        End If
+        If observers IsNot Nothing Then
+            For Each ob As IObserver In observers
+                ob.didObserveNotification(sender, notificationName, info)
+            Next
+        End If
 	End Sub
 End Class

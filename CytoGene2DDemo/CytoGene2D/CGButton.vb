@@ -372,5 +372,3 @@ Public Class CGButtonToggleSprite : Inherits CGButtonToggle
         End If
     End Sub
 End Class
-
-End Class
