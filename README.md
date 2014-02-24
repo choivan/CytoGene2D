@@ -137,7 +137,7 @@ All observers should implement the IObserver interface. There is only one method
   
 `Sub didObserveNotification(sender As Object, notificationName As String, info As Object)`
  
-* sender: there are maybe different send want to broadcast the same notification. In this case, observer need this parameter to determine if want to receive this notification or not.
+* sender: there are maybe multiple senders want to broadcast the same notification. In this case, observer need this parameter to determine if want to receive this notification or not.
 * notificationName: the observer may have listen to multiple notification at the same time. For different notifications, the observer can handle differently.
 * info: the message that broadcaster passes to observers. If no message to pass, then you will read `Nothing` from this field.
 
