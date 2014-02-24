@@ -1,6 +1,6 @@
 CytoGene2D
 ==========
-CytoGene2D is a 2D graphics framework, originally designed for easily building programs about learning cytogenetics. It ultilize GDI+ APIs for low level drawing.  
+CytoGene2D is a 2D graphics framework, originally designed for easily building programs about learning cytogenetics. It ultilizes GDI+ APIs at low level for drawing.  
 *Inspired by Cocos2d.*
 
 #Naming
