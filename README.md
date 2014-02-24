@@ -16,8 +16,10 @@ CytoGene2D is a 2D graphics framework, originally designed for easily building p
 1. CGDirector is the boss, and there is only one director, since it is a singleton. The director is in charge of updating the presentation, and dispatching works (i.e. handling user inputs) to different components. Therefore, the director is reasonable to be seen as the center of the framework.
 2. Layered presentation. Just think about how you use photoshop, a picture is composed of different layers. For those who have no experience with photoshop, refer to the [Layers wiki][1]. Displaying elements, such as sprites and labels, are added onto the screen, and all together form a complete picture.   
 ![image](Images/Layers.png) 
-3. Make objects move! All displaying object in the framework provides a common interface, `runAction(action As CGAction)`. Say, you have a image called "cat" and a CGAction instance "walk". Then by calling `cat.runAction(walk)` you can actually see the cat walking on the screen. Pretty simple, huh? *There are many different kinds of actions. We will explore them later.*
-4. Make objects interactive! All object can respond to users input, as long as it is enabled (disabled by default). Interaction will expect a specific input event, and when it receives such an input event, a user-defined handler will be called. It, similar with the actions (i.e. "walk") just mentioned before, can be associated with an object. Here is a simple example, assume that you want to dismiss the "cat" once you click on it. You should instantiate a CGInteraction object, which is a click interaction and has its completion handler defined to handle when user did click on the "cat". Here the completion handler will be remove the "cat" from screen. Not hard also, right? *There are many different kinds of interactions. We will explore them later.*
+3. Make objects move! All displaying object in the framework provides a common interface, `runAction(action As CGAction)`. Say, you have a image called "cat" and a CGAction instance "walk". Then by calling `cat.runAction(walk)` you can actually see the cat walking on the screen. Pretty simple, huh?   
+*There are many different kinds of actions. We will explore them later.*
+4. Make objects interactive! All object can respond to users input, as long as it is enabled (disabled by default). Interaction will expect a specific input event, and when it receives it, a user-defined handler will be called. It, similar with the actions (i.e. "walk"), can be associated with an object. Here is a simple example, assuming that you want to dismiss a "cat" once you click on it. You instantiate a CGInteraction object, which is a click interaction and has its completion handler defined to handle the click event. Here, the completion handler will be removing the "cat" off from screen. Not hard also, right?  
+*There are many different kinds of interactions. We will explore them later.*
 
 #Details... in Brief
 Here goes the details of the framework. 
@@ -30,7 +32,7 @@ All the displaying elements has common properties such as `location`, `boundingB
 **The table below shows all the public properties of CGNode.**    
 
 Public Properties 		| Description
-:--						| --
+-----------------------	| -------------------
 location         		| Upper-left point	
 center         			| Center point
 originalContentSize		| Original content size
