@@ -1,12 +1,19 @@
 CytoGene2D
 ==========
-CytoGene2D is a 2D graphics engine, originally designed for easily building applications about learning cytogenetics. Inspired by Cocos2d.
+CytoGene2D is a 2D graphics framework, originally designed for easily building applications about learning cytogenetics. It ultilize GDI+ APIs for low level drawing.  
+*Inspired by Cocos2d.*
 
 #Naming
 1. All classes has a prefix, "CG", which stands for Cytogenetics.
-2. Method name starts with a low case letter. Refer to Java's naming guide.
-	* Setters should be, for example, `setFoo(foo As Object)`
-	* Getters should be without the 'get', for example, `foo() As Object`
+2. Method name and variable start with a low case letter. Refer to Java's naming guide.
+	* Setters are, for example, `setFoo(foo As Object)`
+	* Getters are without the 'get', for example, `foo() As Object`
+3. Sigleton class provides a method `shared<CLASSNAME>() As Object` as a global access point. For example, you can get the shared director of CGDirector class by calling `sharedDirector()`.
+
+#Basic Concepts
+1. CGDirector is the boss, and there is only one director, since it is a singleton. The director is in charge of updating the presentation, and dispatching works (i.e. handling user inputs) to different components. Therefore, the director is reasonable to be seen as the center of the framework.
+2. Layered presentation. Just refer to photoshop, a picture is composed of different layers. For those who have no idea about this concept, refer to [Layers wiki][1].
+
 
 ##CGTextView Grammar
 ">": First level heading
@@ -75,3 +82,6 @@ In addition to standard preparations <:\cb>FISH <:\ck>can also be performed on:
 
 An example,
 ![image](textview.PNG)
+
+
+[1]: http://en.wikipedia.org/wiki/Layers_(digital_image_editing)
