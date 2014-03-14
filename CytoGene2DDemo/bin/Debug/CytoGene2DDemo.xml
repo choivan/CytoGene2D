@@ -1,0 +1,141 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+CytoGene2DDemo
+</name>
+</assembly>
+<members>
+<member name="T:GeneRegulationDemo.Form1.NotificationObserver">
+	<summary>
+ NotificationCenter Example
+ </summary>
+	<remarks>Observers should confirm to IObserver interface</remarks>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.b_toggle_off">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.b_toggle_offselected">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.b_toggle_on">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.b_toggle_selected">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.right_normal">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.right_selected">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_close_normal">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_close_selected">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_left_disabled">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_left_highlighted">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_left_normal">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_left_selected">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_mini_normal">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_mini_selected">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_play_off">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_play_off_selected">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_play_on">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_play_on_selected">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_print_disabled">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_print_highlighted">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_print_normal">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_print_selected">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_right_disabled">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_right_highlighted">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_right_normal">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.simple_right_selected">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.SimpleGUIBottomBar">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:GeneRegulationDemo.My.Resources.Resources.smile">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="T:GeneRegulationDemo.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>
