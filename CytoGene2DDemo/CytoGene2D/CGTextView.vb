@@ -24,7 +24,7 @@
             Return pagesEndingIndices_(currentPage_)
         End Get
     End Property
-    Public locked As Boolean ' if a textView is lock, it will ignore all the show next or show last command
+    Public isLocked As Boolean ' if a textView is lock, it will ignore all the show next or show last command
 
     Sub New(frame As RectangleF)
         setFrame(frame)
@@ -35,13 +35,18 @@
         pagesStartingIndices_ = New List(Of Integer) : pagesStartingIndices_.Add(0)
         pagesEndingIndices_ = New List(Of Integer) : pagesEndingIndices_.Add(0)
         paragraphVerticalOffset_ = 0
-        locked = False
+        isLocked = False
     End Sub
 
     Public Sub parseFile(fileName As String)
         textParser.processFile(fileName)
         paragraphVerticalOffset_ = textRenderer.getSizeOfParagraphWithConstraintSize(CGDirector.sharedDirector.graphicsContext,
                                                                                      textParser.attributedParagraphs(0), contentSize).Height
+    End Sub
+
+    Public Sub DEBUG_displayAll()
+        pagesStartingIndices_(currentPage_) = 0
+        pagesEndingIndices_(currentPage_) = textParser.NumberOfParagraphs - 1
     End Sub
 
     Public Sub setFrame(frame As RectangleF)
@@ -97,7 +102,7 @@
     End Sub
 
     Public Sub showNextParagraph()
-        If locked Then Return
+        If isLocked Then Return
         Dim index As Integer = pagesEndingIndices_(currentPage_) + 1
         Dim size As SizeF = textRenderer.getSizeOfParagraphWithConstraintSize(CGDirector.sharedDirector.graphicsContext,
                                                                          textParser.attributedParagraphs(index), contentSize)
@@ -119,6 +124,9 @@
         Dim endIndex As Integer = pagesEndingIndices_(currentPage_)
         Dim verticalOffset As Single = boundingBox.Y
         textRenderer.orderedListNumber = orderedListStartNumber_
+        If endIndex = 0 Then 'file is empty
+            Return
+        End If
         For i As Integer = startIndex To endIndex
             Dim lineSize As SizeF = textRenderer.getSizeOfParagraphWithConstraintSize(context,
                                                                                  textParser.attributedParagraphs(i),

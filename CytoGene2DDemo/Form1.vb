@@ -13,8 +13,42 @@
         'testDNAStrand()
         'testButtons()
         'testSimpleGUI()
-        testNotificationCenter()
+        'testNotificationCenter()
+        testCGTextView()
+    End Sub
 
+    Private Sub testCGTextView()
+        Dim director As CGDirector = CGDirector.sharedDirector
+        Dim textView As New CGTextView(New RectangleF(0, 40, director.canvasWidth, director.canvasHeight - 40))
+        director.currentScene.addChild(textView)
+
+        Dim browserButton As New CGButton(New RectangleF(10, 10, 80, 25))
+        director.currentScene.addChild(browserButton, kCGTopMostZOrder)
+        browserButton.title = "Open a file"
+        browserButton.clickHandler = Sub()
+                                         Dim ofd As New OpenFileDialog
+                                         ofd.Filter = "Text file (*.txt) | *.txt"
+                                         ofd.Multiselect = False
+                                         Dim fileName As String
+                                         If (ofd.ShowDialog()) = Windows.Forms.DialogResult.OK Then
+                                             fileName = ofd.FileName
+                                             Console.WriteLine("Opening file: " + fileName)
+                                             textView.parseFile(fileName)
+                                             textView.DEBUG_displayAll()
+                                         End If
+                                     End Sub
+        Dim upButton As New CGButton(New RectangleF(100, 10, 100, 25))
+        director.currentScene.addChild(upButton, kCGTopMostZOrder)
+        upButton.title = "Move view up"
+        upButton.clickHandler = Sub()
+                                    textView.location = New PointF(textView.location.X, textView.location.Y - 20)
+                                End Sub
+        Dim downButton As New CGButton(New RectangleF(210, 10, 100, 25))
+        director.currentScene.addChild(downButton, kCGTopMostZOrder)
+        downButton.title = "Move view down"
+        downButton.clickHandler = Sub()
+                                      textView.location = New PointF(textView.location.X, textView.location.Y + 20)
+                                  End Sub
     End Sub
 
     'Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
